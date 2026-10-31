@@ -34,7 +34,7 @@
         body.dark-mode .container {
             background: rgba(20, 8, 22, 0.9);
             border-color: #ff2a75;
-            box-shadow: 0 0 25px rgba(255, 42, 117, 0.6), inset 0 0 15px rgba(255, 42, 117, 0.2);
+            box-shadow: 0 0 25px rgba(255, 42, 117, 0.6);
         }
 
         body.dark-mode h1, 
@@ -44,11 +44,6 @@
         body.dark-mode .timer-title, 
         body.dark-mode .modal-content h3 {
             color: #ff66a3 !important;
-            text-shadow: 0 0 8px rgba(255, 102, 163, 0.6);
-        }
-
-        body.dark-mode .caption {
-            color: #e0b0c8;
         }
 
         body.dark-mode .photo-card, 
@@ -58,19 +53,16 @@
         body.dark-mode .room-card {
             background: #190a1c;
             border-color: #ff3385 !important;
-            box-shadow: 0 0 15px rgba(255, 51, 133, 0.4);
         }
 
         body.dark-mode input[type="password"] {
             background: #230d28;
             color: #fff;
             border-color: #ff3385;
-            box-shadow: 0 0 10px rgba(255, 51, 133, 0.3);
         }
 
         body.dark-mode button {
             background: linear-gradient(45deg, #ff2a75, #ff66a3);
-            box-shadow: 0 0 15px rgba(255, 42, 117, 0.6);
         }
 
         /* زرار الدارك مود */
@@ -87,16 +79,12 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
         body.dark-mode .theme-toggle-btn {
             background: #230d28;
             color: #ff85a2;
             border-color: #ff3385;
-            box-shadow: 0 0 10px rgba(255, 51, 133, 0.5);
         }
 
         /* القلوب الطائرة */
@@ -117,7 +105,7 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(8px);
             padding: 25px;
             border-radius: 25px;
@@ -156,10 +144,6 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
-        }
-
-        button:hover {
-            transform: scale(1.05);
         }
 
         #main-content {
@@ -225,7 +209,6 @@
             color: #777;
         }
 
-        /* تنسيق الرومات الأربعة */
         .rooms-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -253,7 +236,6 @@
             color: #777;
         }
 
-        /* بلاي ليست الأغاني */
         .playlist-controls {
             display: flex;
             justify-content: center;
@@ -266,7 +248,6 @@
             font-size: 14px;
         }
 
-        /* جاليري الصور المصغر */
         .mini-gallery {
             display: flex;
             gap: 10px;
@@ -282,14 +263,8 @@
             border: 2px solid #ff85a2;
             cursor: pointer;
             flex-shrink: 0;
-            transition: transform 0.3s;
         }
 
-        .mini-gallery img:hover {
-            transform: scale(1.08);
-        }
-
-        /* النافذة المنبثقة */
         .modal {
             display: none;
             position: fixed;
@@ -339,10 +314,10 @@
     <!-- شاشة الباسورد -->
     <div class="container" id="login-screen">
         <h2>🩷BaNotY🩷</h2>
-        <p style="margin-bottom: 15px; color: #777;">Enter the password  🩷✨</p>
+        <p style="margin-bottom: 15px; color: #777;">Enter the password (123) 🩷✨</p>
         <input type="password" id="pass-input" placeholder="Password">
         <br>
-        <button onclick="checkPassword()">Enter🩷</button>
+        <button type="button" onclick="checkPassword()">Enter🩷</button>
         <p id="error-msg" style="color: red; margin-top: 10px; display: none;">اكتبِ الباسورد صح يروحي (123) 🌚🩷</p>
     </div>
 
@@ -350,7 +325,6 @@
     <div class="container" id="main-content">
         <h1>🩷2026/09/16🩷</h1>
         
-        <!-- العداد الأصلي -->
         <div class="timer-card">
             <div class="timer-title">بقالنا مع بعض🩷✨</div>
             <div class="timer-grid">
@@ -363,7 +337,6 @@
             </div>
         </div>
 
-        <!-- عداد رأس السنة -->
         <div class="timer-card" style="background: #ffe0eb;">
             <div class="timer-title">⏳ باقي ع رأس السنة وبقالنا (شهرين و17 يوم)</div>
             <div class="timer-grid" id="newyear-countdown"></div>
@@ -371,7 +344,6 @@
 
         <p class="caption">عملتلك المكان اللطيف ده عشان أقولك أد إيه انتِ حاجة خاصة جداً في حياتي 💕</p>
 
-        <!-- صناديق ورومات الذكريات (4 رومات بأوقات وتاريخ مختلفة) -->
         <div class="rooms-card">
             <div class="timer-title">💌 صناديق ورومات الذكريات</div>
             <div class="rooms-grid">
@@ -394,7 +366,6 @@
             </div>
         </div>
 
-        <!-- بلاي ليست الأغاني -->
         <div class="music-card">
             <div class="song-title" id="song-title-display">Music Playlist 🎶</div>
             <audio id="playlistAudio"></audio>
@@ -405,7 +376,6 @@
             </div>
         </div>
 
-        <!-- جاليري الصور المصغر -->
         <div class="gallery-card">
             <div class="timer-title">📸 ألبوم الصور المصغر</div>
             <div class="mini-gallery">
@@ -417,10 +387,10 @@
             </div>
         </div>
 
-        <button onclick="openNote()">Note 💌</button>
+        <button type="button" onclick="openNote()">Note 💌</button>
     </div>
 
-    <!-- نافذة عرض الرومات والنوتة (تدعم رسالة طويلة وصورة) -->
+    <!-- النافذة العامة -->
     <div class="modal" id="genericModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -430,7 +400,7 @@
         </div>
     </div>
 
-    <!-- نافذة عرض الصورة المكبرة من الألبوم -->
+    <!-- نافذة الصور -->
     <div class="modal" id="photoModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closePhotoModal()">&times;</span>
@@ -440,11 +410,10 @@
     </div>
 
     <script>
-        const PASSWORD = "M♡R";
-
+        // دالة الباسورد المبسطة والمضمونة
         function checkPassword() {
-            const input = document.getElementById('pass-input').value;
-            if (input === PASSWORD) {
+            var passInput = document.getElementById('pass-input').value;
+            if (passInput === "123") {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 startTimer();
@@ -454,7 +423,6 @@
             }
         }
 
-        // --- بلاي ليست الأغاني ---
         const playlist = [
             { title: "Music 1: Youm Matablan 🩷", src: "song.mp3" },
             { title: "Music 2: Romantic Melodies ✨", src: "song2.mp3" },
@@ -494,52 +462,47 @@
             musicBtn.innerText = "⏸ إيقاف";
         }
 
-        // --- النوتة الأساسية ---
         function openNote() {
             document.getElementById('modal-title').innerText = "To my soul 📝❤️";
-            document.getElementById('modal-body').innerText = `بصي بقا 🩷✨\nبقالنا فتره صغنن مع بعض بس بقينا اقرب اتنين لبعض و دخلنا قلب بعض بسرعه عشان شبه بعض في كل حاجه و زي بعض ف كل حاجه و دخلتي قلبي بجد 🩷✨\nيارب دايما مع بعض يصغنن و دائماً مبسوطين سوا ✨🩷\nRT07🩷✨`;
-            document.getElementById('modal-img-container.innerHTML = ''`; // من غير صوره اساسية هنا لو مش حابب
+            document.getElementById('modal-body').innerText = "بصي بقا 🩷✨\nبقالنا فتره صغنن مع بعض بس بقينا اقرب اتنين لبعض و دخلنا قلب بعض بسرعه عشان شبه بعض في كل حاجه و زي بعض ف كل حاجه و دخلتي قلبي بجد 🩷✨\nيارب دايما مع بعض يصغنن و دائماً مبسوطين سوا ✨🩷\nRT07🩷✨";
+            document.getElementById('modal-img-container').innerHTML = '';
             document.getElementById('genericModal').style.display = 'flex';
         }
 
-        // --- بيانات الرومات (تقدر تغير النصوص والصور براحتك هنا) ---
         const roomData = {
             room1: { 
                 title: "🎁 روم البداية", 
-                text: "يا ريضووو يا حتة من قلبي، يا أجمل نصيب وأحنّ صدفة وأغلى حد على روحي كلها... إنتِ دخلتي حياتي غيرتي كل حاجة فيها للأجمل، وبقى كل يوم معاكي بيساوي الدنيا دي بحالها! 🩷✨\n\n(اكتب هنا رسالتك الطويلة براحتك خالص يا ريس)",
-                img: "photo1.jpg" // تقدر تحط صورة خاصة للروم ده
+                text: "يا ريضووو يا حتة من قلبي، يا أجمل نصيب وأحنّ صدفة وأغلى حد على روحي كلها... إنتِ دخلتي حياتي غيرتي كل حاجة فيها للأجمل، وبقى كل يوم معاكي بيساوي الدنيا دي بحالها! 🩷✨",
+                img: "photo1.jpg"
             },
             room2: { 
                 title: "🎁 روم الذكريات", 
-                text: "مهما كانت المسافة بيننا حوالي 650 كيلو، قلبي حاسس بيكي في كل دقة وفي كل لحظة بفتكرك فيها يا أحلي بنوتة في الدنيا 💕\n\n(اكتب الكلام الطويل اللي تحبه هنا)",
+                text: "مهما كانت المسافة بيننا حوالي 650 كيلو، قلبي حاسس بيكي في كل دقة وفي كل لحظة بفتكرك فيها يا أحلي بنوتة في الدنيا 💕",
                 img: "photo2.jpg"
             },
             room3: { 
                 title: "🎁 صندوق الشوق", 
-                text: "كل ضحكة وكل كلمة لطيفة بينا محفورة جوه قلبي... إنتي خليتي أيامي ليها طعم تاني خالص يا قمري 🌚🩷\n\n(حط هنا رسالتك الرومانسية الكبيرة)",
+                text: "كل ضحكة وكل كلمة لطيفة بينا محفورة جوه قلبي... إنتي خليتي أيامي ليها طعم تاني خالص يا قمري 🌚🩷",
                 img: "photo3.jpg"
             },
             room4: { 
                 title: "🎁 مفاجأة رأس السنة (31/12)", 
-                text: "كل سنة وأنتي طيبة يا قمري وأحلي بنوتة في الدنيا! خلاص دخلنا السنة الجديدة وبقينا مع بعض شهرين و17 يوم، ولسه الحكاية بتكبر بينا يوم بعد يوم 🩷✨\n\n(رسالة ليلة رأس السنة الكبيرة هنا)",
+                text: "كل سنة وأنتي طيبة يا قمري وأحلي بنوتة في الدنيا! خلاص دخلنا السنة الجديدة وبقينا مع بعض شهرين و17 يوم، ولسه الحكاية بتكبر بينا يوم بعد يوم 🩷✨",
                 img: "photo5.jpg"
             }
         };
 
         function openRoom(roomId) {
             const now = new Date();
-            
-            // تحديد تواريخ فتح الرومات (عدل التواريخ زي ما تحب)
             let targetDate;
             if (roomId === 'room2') {
-                targetDate = new Date('2026-11-15T00:00:00'); // روم 2 يفتح يوم 15 نوفمبر
+                targetDate = new Date('2026-11-15T00:00:00');
             } else if (roomId === 'room3') {
-                targetDate = new Date('2026-12-01T00:00:00'); // روم 3 يفتح يوم 1 ديسمبر
+                targetDate = new Date('2026-12-01T00:00:00');
             } else if (roomId === 'room4') {
-                targetDate = new Date('2026-12-31T00:00:00'); // روم 4 يفتح ليلة رأس السنة
+                targetDate = new Date('2026-12-31T00:00:00');
             }
 
-            // فحص التاريخ لو الروم مش روم 1
             if (roomId !== 'room1' && targetDate && now < targetDate) {
                 alert('عفواً يا يروحي! الروم ده مقفول وهيففتح لوحده في معاده المخصص 🌙🩷');
                 return;
@@ -548,10 +511,9 @@
             document.getElementById('modal-title').innerText = roomData[roomId].title;
             document.getElementById('modal-body').innerText = roomData[roomId].text;
             
-            // عرض الصورة جوه الروم لو موجودة
             const imgContainer = document.getElementById('modal-img-container');
             if(roomData[roomId].img) {
-                imgContainer.innerHTML = `<img src="${roomData[roomId].img}" alt="Room Image">`;
+                imgContainer.innerHTML = '<img src="' + roomData[roomId].img + '" alt="Room Image">';
             } else {
                 imgContainer.innerHTML = '';
             }
@@ -563,7 +525,6 @@
             document.getElementById('genericModal').style.display = 'none';
         }
 
-        // --- جاليري الصور المصغر ---
         function openPhoto(imgSrc, caption) {
             document.getElementById('photo-modal-caption').innerText = caption;
             document.getElementById('modal-img-src').src = imgSrc;
@@ -574,7 +535,6 @@
             document.getElementById('photoModal').style.display = 'none';
         }
 
-        // --- الوضع الليلي ---
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
             const themeBtn = document.getElementById('themeBtn');
@@ -585,7 +545,6 @@
             }
         }
 
-        // --- العدادات الزمنية ---
         const startDate = new Date('2026-09-16T00:00:00');
 
         function updateTimer() {
@@ -628,12 +587,11 @@
             const nyMinutes = Math.floor((nyDiff / 1000 / 60) % 60);
             const nySeconds = Math.floor((nyDiff / 1000) % 60);
 
-            document.getElementById('newyear-countdown').innerHTML = `
-                <div class="timer-box"><div class="timer-num">${nyDays}</div><div class="timer-label">يوم</div></div>
-                <div class="timer-box"><div class="timer-num">${nyHours}</div><div class="timer-label">ساعة</div></div>
-                <div class="timer-box"><div class="timer-num">${nyMinutes}</div><div class="timer-label">دقيقة</div></div>
-                <div class="timer-box"><div class="timer-num">${nySeconds}</div><div class="timer-label">ثانية</div></div>
-            `;
+            document.getElementById('newyear-countdown').innerHTML = 
+                '<div class="timer-box"><div class="timer-num">' + nyDays + '</div><div class="timer-label">يوم</div></div>' +
+                '<div class="timer-box"><div class="timer-num">' + nyHours + '</div><div class="timer-label">ساعة</div></div>' +
+                '<div class="timer-box"><div class="timer-num">' + nyMinutes + '</div><div class="timer-label">دقيقة</div></div>' +
+                '<div class="timer-box"><div class="timer-num">' + nySeconds + '</div><div class="timer-label">ثانية</div></div>';
         }
 
         function startTimer() {
