@@ -66,16 +66,18 @@
             background: linear-gradient(45deg, #ff2a75, #ff66a3);
         }
 
+        /* زرار الدارك/لايت ثابت ومترتب جوه الصفحة */
         .theme-toggle-btn {
-            position: fixed;
+            position: absolute;
             top: 15px;
             left: 15px;
-            z-index: 999;
+            z-index: 99;
             background: rgba(255, 255, 255, 0.85);
             color: #d63384;
             border: 2px solid #ffb6c1;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -115,6 +117,7 @@
             border: 2px solid #ffb6c1;
             z-index: 10;
             margin: 20px 0;
+            position: relative; /* مهم عشان يظبط مكان زرار الدارك مود جوا الحاوية */
         }
 
         #login-screen h2 {
@@ -339,10 +342,9 @@
 </head>
 <body>
 
-    <button class="theme-toggle-btn" onclick="toggleDarkMode()" id="themeBtn">🌙 Dark</button>
-
     <!-- شاشة الباسورد -->
     <div class="container" id="login-screen">
+        <button class="theme-toggle-btn" onclick="toggleDarkMode()" id="themeBtn">🌙 Dark</button>
         <h2>🩷BaNotY🩷</h2>
         <p style="margin-bottom: 15px; color: #777;">Enter the password (123) 🩷✨</p>
         <input type="password" id="pass-input" placeholder="Password">
@@ -353,6 +355,7 @@
 
     <!-- المحتوى الرئيسي -->
     <div class="container" id="main-content">
+        <button class="theme-toggle-btn" onclick="toggleDarkMode()" id="themeBtn2">🌙 Dark</button>
         <h1>🩷2026/09/16🩷</h1>
         
         <div class="timer-card">
@@ -514,7 +517,6 @@
             document.getElementById('genericModal').style.display = 'flex';
         }
 
-        // فتح وغلق نافذة ألبوم الصور العائمة
         function openGalleryModal() {
             document.getElementById('galleryModal').style.display = 'flex';
         }
@@ -565,12 +567,12 @@
 
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
-            const themeBtn = document.getElementById('themeBtn');
-            if (document.body.classList.contains('dark-mode')) {
-                themeBtn.innerHTML = "☀️ Light";
-            } else {
-                themeBtn.innerHTML = "🌙 Dark";
-            }
+            const isDark = document.body.classList.contains('dark-mode');
+            const btn1 = document.getElementById('themeBtn');
+            const btn2 = document.getElementById('themeBtn2');
+            const text = isDark ? "☀️ Light" : "🌙 Dark";
+            if(btn1) btn1.innerHTML = text;
+            if(btn2) btn2.innerHTML = text;
         }
 
         const startDate = new Date('2026-09-16T00:00:00');
