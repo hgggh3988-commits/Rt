@@ -25,16 +25,16 @@
             position: relative;
         }
 
-        /* الوضع الليلي */
+        /* الوضع الليلي - هنا غيرنا لون الفريم الكبير لبينك غامق وناعم بدل الأبيض */
         body.dark-mode {
             background: linear-gradient(135deg, #0d050e, #1a091a);
             color: #ffb6c1;
         }
 
         body.dark-mode .container {
-            background: rgba(20, 8, 22, 0.9);
+            background: rgba(35, 12, 28, 0.95); /* بينك غامق خفيف ورايق */
             border-color: #ff2a75;
-            box-shadow: 0 0 25px rgba(255, 42, 117, 0.6);
+            box-shadow: 0 0 25px rgba(255, 42, 117, 0.4);
         }
 
         body.dark-mode h1, 
@@ -52,12 +52,12 @@
         body.dark-mode .timer-box,
         body.dark-mode .room-card,
         body.dark-mode .popup-photo-card {
-            background: #190a1c;
+            background: #230d28;
             border-color: #ff3385 !important;
         }
 
         body.dark-mode input[type="password"] {
-            background: #230d28;
+            background: #2d1035;
             color: #fff;
             border-color: #ff3385;
         }
@@ -84,7 +84,7 @@
         }
 
         body.dark-mode .theme-toggle-btn {
-            background: #230d28;
+            background: #2d1035;
             color: #ff85a2;
             border-color: #ff3385;
         }
@@ -117,7 +117,7 @@
             border: 2px solid #ffb6c1;
             z-index: 10;
             margin: 20px 0;
-            position: relative; /* مهم عشان يظبط مكان زرار الدارك مود جوا الحاوية */
+            position: relative;
         }
 
         #login-screen h2 {
@@ -171,6 +171,14 @@
             border-radius: 18px;
             border: 1px dashed #ff85a2;
             margin-bottom: 20px;
+        }
+
+        body.dark-mode .timer-card, 
+        body.dark-mode .rooms-card, 
+        body.dark-mode .music-card, 
+        body.dark-mode .gallery-btn-card {
+            background: #2d1035;
+            border-color: #ff3385;
         }
 
         .timer-title {
@@ -250,7 +258,6 @@
             font-size: 14px;
         }
 
-        /* زرار الجاليري الجديد بالإيموجي */
         .gallery-btn-card {
             background: #fff0f3;
             padding: 15px;
@@ -273,7 +280,6 @@
             width: 100%;
         }
 
-        /* النافذة المنبثقة للجاليري (صفحة عائمة في نفس الوجهة) */
         .modal {
             display: none;
             position: fixed;
@@ -308,7 +314,6 @@
             z-index: 10;
         }
 
-        /* فريمات الصور العمودية جوا النافذة العائمة */
         .popup-gallery-container {
             display: flex;
             flex-direction: column;
@@ -371,7 +376,7 @@
         </div>
 
         <div class="timer-card" style="background: #ffe0eb;">
-            <div class="timer-title">⏳ باقي ع رأس السنة وبقالنا (شهرين و17 يوم)</div>
+            <div class="timer-title" style="color: #d63384;">⏳ باقي ع رأس السنة وبقالنا (شهرين و17 يوم)</div>
             <div class="timer-grid" id="newyear-countdown"></div>
         </div>
 
