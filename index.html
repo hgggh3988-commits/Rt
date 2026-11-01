@@ -25,14 +25,14 @@
             position: relative;
         }
 
-        /* الوضع الليلي - هنا غيرنا لون الفريم الكبير لبينك غامق وناعم بدل الأبيض */
+        /* الوضع الليلي - فريم فخم وغميق شيك جداً */
         body.dark-mode {
             background: linear-gradient(135deg, #0d050e, #1a091a);
             color: #ffb6c1;
         }
 
         body.dark-mode .container {
-            background: rgba(35, 12, 28, 0.95); /* بينك غامق خفيف ورايق */
+            background: rgba(18, 8, 20, 0.95); /* لون غامق فخم ورايق مظبوط */
             border-color: #ff2a75;
             box-shadow: 0 0 25px rgba(255, 42, 117, 0.4);
         }
@@ -51,13 +51,14 @@
         body.dark-mode .modal-content, 
         body.dark-mode .timer-box,
         body.dark-mode .room-card,
-        body.dark-mode .popup-photo-card {
-            background: #230d28;
+        body.dark-mode .popup-photo-card,
+        body.dark-mode .ny-card {
+            background: #190a1c;
             border-color: #ff3385 !important;
         }
 
         body.dark-mode input[type="password"] {
-            background: #2d1035;
+            background: #230d28;
             color: #fff;
             border-color: #ff3385;
         }
@@ -84,7 +85,7 @@
         }
 
         body.dark-mode .theme-toggle-btn {
-            background: #2d1035;
+            background: #230d28;
             color: #ff85a2;
             border-color: #ff3385;
         }
@@ -165,7 +166,7 @@
             line-height: 1.6;
         }
 
-        .timer-card, .rooms-card, .music-card, .gallery-card {
+        .timer-card, .rooms-card, .music-card, .gallery-card, .ny-card {
             background: #fff0f3;
             padding: 15px;
             border-radius: 18px;
@@ -176,8 +177,9 @@
         body.dark-mode .timer-card, 
         body.dark-mode .rooms-card, 
         body.dark-mode .music-card, 
-        body.dark-mode .gallery-btn-card {
-            background: #2d1035;
+        body.dark-mode .gallery-btn-card,
+        body.dark-mode .ny-card {
+            background: #190a1c;
             border-color: #ff3385;
         }
 
@@ -375,8 +377,8 @@
             </div>
         </div>
 
-        <div class="timer-card" style="background: #ffe0eb;">
-            <div class="timer-title" style="color: #d63384;">⏳ باقي ع رأس السنة وبقالنا (شهرين و17 يوم)</div>
+        <div class="ny-card">
+            <div class="timer-title">⏳ باقي ع رأس السنة وبقالنا (شهرين و17 يوم)</div>
             <div class="timer-grid" id="newyear-countdown"></div>
         </div>
 
