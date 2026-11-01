@@ -50,7 +50,8 @@
         body.dark-mode .music-card, 
         body.dark-mode .modal-content, 
         body.dark-mode .timer-box,
-        body.dark-mode .room-card {
+        body.dark-mode .room-card,
+        body.dark-mode .popup-photo-card {
             background: #190a1c;
             border-color: #ff3385 !important;
         }
@@ -246,44 +247,30 @@
             font-size: 14px;
         }
 
-        /* الجاليري العمودي */
-        .vertical-gallery {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        /* زرار الجاليري الجديد بالإيموجي */
+        .gallery-btn-card {
+            background: #fff0f3;
+            padding: 15px;
+            border-radius: 18px;
+            border: 1px dashed #ff85a2;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .gallery-item {
-            background: white;
-            border: 2px solid #ffb6c1;
-            border-radius: 15px;
-            padding: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .gallery-item img {
-            width: 70px;
-            height: 70px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
-        .gallery-item span {
-            font-size: 14px;
+        .gallery-trigger-btn {
+            background: linear-gradient(45deg, #ff6b81, #ff85a2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 16px;
             font-weight: bold;
-            color: #d63384;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
+            width: 100%;
         }
 
-        body.dark-mode .gallery-item {
-            background: #190a1c;
-            border-color: #ff3385;
-        }
-
-        /* النافذة المنبثقة */
+        /* النافذة المنبثقة للجاليري (صفحة عائمة في نفس الوجهة) */
         .modal {
             display: none;
             position: fixed;
@@ -301,20 +288,10 @@
             border-radius: 20px;
             border: 3px solid #ff85a2;
             max-width: 450px;
-            max-height: 90vh;
+            max-height: 85vh;
             overflow-y: auto;
             text-align: right;
             position: relative;
-        }
-
-        .modal-content img {
-            width: 100%;
-            height: auto;
-            max-height: 300px;
-            object-fit: contain;
-            border-radius: 12px;
-            margin-top: 12px;
-            background: #000;
         }
 
         .close-btn {
@@ -325,6 +302,38 @@
             cursor: pointer;
             color: #ff6b81;
             font-weight: bold;
+            z-index: 10;
+        }
+
+        /* فريمات الصور العمودية جوا النافذة العائمة */
+        .popup-gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .popup-photo-card {
+            background: #ffffff;
+            border: 2px solid #ffb6c1;
+            border-radius: 15px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .popup-photo-card img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .popup-photo-caption {
+            font-size: 15px;
+            font-weight: bold;
+            color: #d63384;
         }
     </style>
 </head>
@@ -398,34 +407,42 @@
             </div>
         </div>
 
-        <!-- الجاليري العمودي للصور الأصلية -->
-        <div class="gallery-card">
-            <div class="timer-title">📸 ألبوم الصور المصغر</div>
-            <div class="vertical-gallery">
-                <div class="gallery-item" onclick="openPhoto('photo1.jpg', 'قمري🌚🩷')">
-                    <img src="photo1.jpg" alt="1">
-                    <span>قمري 🌚🩷</span>
-                </div>
-                <div class="gallery-item" onclick="openPhoto('photo2.jpg', 'احلي ضحكه شوفتها في حياتي🩷✨')">
-                    <img src="photo2.jpg" alt="2">
-                    <span>احلي ضحكه شوفتها في حياتي 🩷✨</span>
-                </div>
-                <div class="gallery-item" onclick="openPhoto('photo3.jpg', 'ربنا يخليكي ليا دايماً ✨')">
-                    <img src="photo3.jpg" alt="3">
-                    <span>ربنا يخليكي ليا دايماً ✨</span>
-                </div>
-                <div class="gallery-item" onclick="openPhoto('photo4.jpg', 'الصغنن حجي🌚🩷')">
-                    <img src="photo4.jpg" alt="4">
-                    <span>الصغنن حجي 🌚🩷</span>
-                </div>
-                <div class="gallery-item" onclick="openPhoto('photo5.jpg', '🩷✨احلي بنوته في الدنيا دي كلها')">
-                    <img src="photo5.jpg" alt="5">
-                    <span>احلي بنوته في الدنيا دي كلها 🩷✨</span>
-                </div>
-            </div>
+        <!-- زرار ألبوم الصور الجديد بالإيموجي -->
+        <div class="gallery-btn-card">
+            <button class="gallery-trigger-btn" onclick="openGalleryModal()">📸 ألبوم الصور الذكريات 🩷✨</button>
         </div>
 
         <button type="button" onclick="openNote()">Note 💌</button>
+    </div>
+
+    <!-- نافذة الجاليري العائمة (Popup) -->
+    <div class="modal" id="galleryModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeGalleryModal()">&times;</span>
+            <h3 style="color: #d63384; margin-bottom: 10px; text-align: center;">📸 ألبوم صورنا الجميلة 🩷</h3>
+            <div class="popup-gallery-container">
+                <div class="popup-photo-card">
+                    <img src="photo1.jpg" alt="1">
+                    <div class="popup-photo-caption">قمري 🌚🩷</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo2.jpg" alt="2">
+                    <div class="popup-photo-caption">احلي ضحكه شوفتها في حياتي 🩷✨</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo3.jpg" alt="3">
+                    <div class="popup-photo-caption">ربنا يخليكي ليا دايماً ✨</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo4.jpg" alt="4">
+                    <div class="popup-photo-caption">الصغنن حجي 🌚🩷</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo5.jpg" alt="5">
+                    <div class="popup-photo-caption">احلي بنوته في الدنيا دي كلها 🩷✨</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- النافذة العامة للرومات -->
@@ -435,15 +452,6 @@
             <h3 id="modal-title" style="color: #d63384; margin-bottom: 10px;"></h3>
             <div id="modal-body" style="line-height: 1.8; color: #444; font-size: 14px; white-space: pre-line; text-align: right;"></div>
             <div id="modal-img-container"></div>
-        </div>
-    </div>
-
-    <!-- نافذة عرض الصور الكبيرة -->
-    <div class="modal" id="photoModal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closePhotoModal()">&times;</span>
-            <h3 id="photo-modal-caption" style="color: #d63384; margin-bottom: 10px;"></h3>
-            <img id="modal-img-src" src="" alt="Full Photo">
         </div>
     </div>
 
@@ -506,45 +514,38 @@
             document.getElementById('genericModal').style.display = 'flex';
         }
 
-        // --- محتوى وصور الرومات المستقلة (أسامي الصور هنا غير الجاليري تماماً) ---
+        // فتح وغلق نافذة ألبوم الصور العائمة
+        function openGalleryModal() {
+            document.getElementById('galleryModal').style.display = 'flex';
+        }
+        function closeGalleryModal() {
+            document.getElementById('galleryModal').style.display = 'none';
+        }
+
         const roomData = {
             room1: { 
                 title: "🎁 روم البداية", 
                 text: "يا ريضووو يا حتة من قلبي، يا أجمل نصيب وأحنّ صدفة وأغلى حد على روحي كلها... إنتِ دخلتي حياتي غيرتي كل حاجة فيها للأجمل، وبقى كل يوم معاكي بيساوي الدنيا دي بحالها! 🩷✨\n\n(اكتب رسالتك الكبيرة هنا براحتك)",
-                img: "room-img1.jpg" // صورة خاصة بروم 1
+                img: "room-img1.jpg"
             },
             room2: { 
                 title: "🎁 روم الذكريات", 
                 text: "مهما كانت المسافة بيننا حوالي 650 كيلو، قلبي حاسس بيكي في كل دقة وفي كل لحظة بفتكرك فيها يا أحلي بنوتة في الدنيا 💕\n\n(اكتب رسالتك الكبيرة هنا براحتك)",
-                img: "room-img2.jpg" // صورة خاصة بروم 2
+                img: "room-img2.jpg"
             },
             room3: { 
                 title: "🎁 صندوق الشوق", 
                 text: "كل ضحكة وكل كلمة لطيفة بينا محفورة جوه قلبي... إنتي خليتي أيامي ليها طعم تاني خالص يا قمري 🌚🩷\n\n(اكتب رسالتك الكبيرة هنا براحتك)",
-                img: "room-img3.jpg" // صورة خاصة بروم 3
+                img: "room-img3.jpg"
             },
             room4: { 
                 title: "🎁 مفاجأة رأس السنة (31/12)", 
                 text: "كل سنة وأنتي طيبة يا قمري وأحلي بنوتة في الدنيا! خلاص دخلنا السنة الجديدة وبقينا مع بعض شهرين و17 يوم، ولسه الحكاية بتكبر بينا يوم بعد يوم 🩷✨\n\n(اكتب رسالتك الكبيرة هنا براحتك)",
-                img: "room-img4.jpg" // صورة خاصة بروم 4
+                img: "room-img4.jpg"
             }
         };
 
         function openRoom(roomId) {
-            // ملاحظة: الرومات مفتوحة حالياً لتعديل براحتك. 
-            // لو حابب تقفلهم بالتواريخ بعد ما تخلص، شيل التعليق عن شرط التاريخ تحت:
-            /*
-            const now = new Date();
-            let targetDate;
-            if (roomId === 'room2') targetDate = new Date('2026-11-15T00:00:00');
-            if (roomId === 'room3') targetDate = new Date('2026-12-01T00:00:00');
-            if (roomId === 'room4') targetDate = new Date('2026-12-31T00:00:00');
-            if (roomId !== 'room1' && targetDate && now < targetDate) {
-                alert('عفواً يا يروحي! الروم ده مقفول وهيففتح لوحده في معاده 🌙🩷');
-                return;
-            }
-            */
-
             document.getElementById('modal-title').innerText = roomData[roomId].title;
             document.getElementById('modal-body').innerText = roomData[roomId].text;
             
@@ -560,16 +561,6 @@
 
         function closeModal() {
             document.getElementById('genericModal').style.display = 'none';
-        }
-
-        function openPhoto(imgSrc, caption) {
-            document.getElementById('photo-modal-caption').innerText = caption;
-            document.getElementById('modal-img-src').src = imgSrc;
-            document.getElementById('photoModal').style.display = 'flex';
-        }
-
-        function closePhotoModal() {
-            document.getElementById('photoModal').style.display = 'none';
         }
 
         function toggleDarkMode() {
