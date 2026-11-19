@@ -51,12 +51,14 @@
         body.dark-mode .modal-content, 
         body.dark-mode .timer-box,
         body.dark-mode .room-card,
-        body.dark-mode .popup-photo-card {
+        body.dark-mode .popup-photo-card,
+        body.dark-mode .room4-part-card {
             background: #190a1c;
             border-color: #ff3385 !important;
         }
 
-        body.dark-mode #modal-body {
+        body.dark-mode #modal-body,
+        body.dark-mode .room4-part-text {
             color: #ffd6e7 !important;
         }
 
@@ -65,6 +67,12 @@
             border-color: #ff66a3;
             color: #ff99c2;
             box-shadow: 0 0 12px rgba(255, 51, 133, 0.25);
+        }
+
+        body.dark-mode .room4-part-time {
+            background: rgba(255, 102, 163, 0.16);
+            color: #ff99c2;
+            border-color: #ff66a3;
         }
 
         body.dark-mode input[type="password"] {
@@ -344,6 +352,58 @@
             opacity: 0.85;
         }
 
+        /* تنسيق أجزاء الروم الرابع */
+        .room4-parts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .room4-part-card {
+            background: #ffffff;
+            border: 2px dashed #ff85a2;
+            border-radius: 16px;
+            padding: 14px;
+            text-align: right;
+        }
+
+        .room4-part-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .room4-part-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #d63384;
+        }
+
+        body.dark-mode .room4-part-title {
+            color: #ff66a3;
+        }
+
+        .room4-part-time {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 10px;
+            background: #ffe6ee;
+            color: #c2185b;
+            border: 1px solid #ffb6c1;
+        }
+
+        .room4-part-text {
+            font-size: 13.5px;
+            line-height: 1.75;
+            color: #444;
+            white-space: pre-line;
+        }
+
         .modal-content img {
             width: 100%;
             height: auto;
@@ -472,8 +532,8 @@
                     <small>أحلى مكالمة 🌙</small>
                 </div>
                 <div class="room-card" onclick="openRoom('room4')">
-                    <h4>🎁 روم الذكريات الخاصة</h4>
-                    <small>متاح الآن للتعديل 🎉</small>
+                    <h4>🕊️ روم 31/12 وبداية السنة</h4>
+                    <small>3 أجزاء بتوقيتاتها 🩷</small>
                 </div>
             </div>
         </div>
@@ -553,6 +613,7 @@
             <h3 id="modal-title" style="color: #d63384; margin-bottom: 10px;"></h3>
             <div id="modal-extra-container"></div>
             <div id="modal-body" style="line-height: 1.8; color: #444; font-size: 14px; white-space: pre-line; text-align: right;"></div>
+            <div id="modal-parts-container"></div>
             <div id="modal-audio-container"></div>
             <div id="modal-img-container"></div>
         </div>
@@ -614,6 +675,7 @@
             document.getElementById('modal-title').innerText = "To my soul 📝❤️";
             document.getElementById('modal-extra-container').innerHTML = '';
             document.getElementById('modal-body').innerText = "بصي بقا 🩷✨\nبقالنا فتره صغنن مع بعض بس بقينا اقرب اتنين لبعض و دخلنا قلب بعض بسرعه عشان شبه بعض في كل حاجه و زي بعض ف كل حاجه و دخلتي قلبي بجد 🩷✨\nيارب دايما مع بعض يصغنن و دائماً مبسوطين سوا ✨🩷\nRT07🩷✨";
+            document.getElementById('modal-parts-container').innerHTML = '';
             document.getElementById('modal-audio-container').innerHTML = '';
             document.getElementById('modal-img-container').innerHTML = '';
             document.getElementById('genericModal').style.display = 'flex';
@@ -645,9 +707,25 @@
                 img: "room-img3.jpg"
             },
             room4: { 
-                title: "🎁 روم الذكريات الخاصة", 
-                text: "لسه في ذكريات وكلام كتير حلو جاي بينا يوم بعد يوم... ودايماً هفضل جنبك ومعاكي 🩷✨",
-                img: "room-img4.jpg"
+                title: "🕊️ ذكرى غالية وبداية جديدة", 
+                text: "أنا عارف إن اليوم ده تقيل على قلبك ومليان إحساس مختلف، ومش هسيبك تشيلي همّه أو تغرقي فيه لوحدك ولا لحظة... أنا جنبك في كل ساعة، وبحاول أكون سندك وراحتك لحد ما ندخل على سنة جديدة مليانة خير وضحك وراحة بال ليكي 🩷✨",
+                parts: [
+                    {
+                        title: "🌙 الجزء الأول",
+                        time: "يفتح: 31/12 الساعة 1:00 بعد منتصف الليل",
+                        text: "كلام الجزء الأول هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر)."
+                    },
+                    {
+                        title: "☀️ الجزء الثاني",
+                        time: "يفتح: 31/12 الساعة 12:00 الظهر",
+                        text: "كلام الجزء الثاني هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر)."
+                    },
+                    {
+                        title: "✨ الجزء الثالث",
+                        time: "يفتح: 1/1 الساعة 12:00 منتصف الليل (السنة الجديدة)",
+                        text: "كلام الجزء الثالث هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر)."
+                    }
+                ]
             }
         };
 
@@ -669,6 +747,25 @@
                     '</div>';
             } else {
                 extraContainer.innerHTML = '';
+            }
+
+            const partsContainer = document.getElementById('modal-parts-container');
+            if (roomData[roomId].parts && roomData[roomId].parts.length > 0) {
+                let partsHtml = '<div class="room4-parts-list">';
+                roomData[roomId].parts.forEach(part => {
+                    partsHtml +=
+                        '<div class="room4-part-card">' +
+                        '<div class="room4-part-header">' +
+                        '<span class="room4-part-title">' + part.title + '</span>' +
+                        '<span class="room4-part-time">⏰ ' + part.time + '</span>' +
+                        '</div>' +
+                        '<div class="room4-part-text">' + part.text + '</div>' +
+                        '</div>';
+                });
+                partsHtml += '</div>';
+                partsContainer.innerHTML = partsHtml;
+            } else {
+                partsContainer.innerHTML = '';
             }
 
             const audioContainer = document.getElementById('modal-audio-container');
