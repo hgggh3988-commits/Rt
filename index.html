@@ -490,13 +490,13 @@
 
         <!-- زرار ألبوم الصور الجديد بالإيموجي -->
         <div class="gallery-btn-card">
-            <button class="gallery-trigger-btn" onclick="openGalleryModal()">📸 ألبوم الصور الذكريات 🩷✨</button>
+            <button class="gallery-trigger-btn" onclick="openGalleryModal()">📸 ألبوم الصور الذكريات (10 صور) 🩷✨</button>
         </div>
 
         <button type="button" onclick="openNote()">Note 💌</button>
     </div>
 
-    <!-- نافذة الجاليري العائمة (Popup) -->
+    <!-- نافذة الجاليري العائمة (Popup) - 10 صور -->
     <div class="modal" id="galleryModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeGalleryModal()">&times;</span>
@@ -521,6 +521,26 @@
                 <div class="popup-photo-card">
                     <img src="photo5.jpg" alt="5">
                     <div class="popup-photo-caption">احلي بنوته في الدنيا دي كلها 🩷✨</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo6.jpg" alt="6">
+                    <div class="popup-photo-caption">ذكرى حلوة جوه قلبي 🩷✨</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo7.jpg" alt="7">
+                    <div class="popup-photo-caption">الضحكة اللي بتفرحني دايماً 🌚🩷</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo8.jpg" alt="8">
+                    <div class="popup-photo-caption">أجمل لحظاتنا مع بعض 💕</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo9.jpg" alt="9">
+                    <div class="popup-photo-caption">حبيبتي وروحي دايماً 🩷✨</div>
+                </div>
+                <div class="popup-photo-card">
+                    <img src="photo10.jpg" alt="10">
+                    <div class="popup-photo-caption">ولسه الحلو مكمل مع بعض ✨🩷</div>
                 </div>
             </div>
         </div>
@@ -551,10 +571,11 @@
             }
         }
 
+        // --- قائمة الـ 3 أغاني (اكتب أسماء الأغاني اللي هتختارها في خانة title) ---
         const playlist = [
-            { title: "Music 1: Youm Matablan 🩷", src: "song.mp3" },
-            { title: "Music 2: Romantic Melodies ✨", src: "song2.mp3" },
-            { title: "Music 3: Our Special Vibe 🎶", src: "song3.mp3" }
+            { title: "الأغنية 1 🩷", src: "song.mp3" },
+            { title: "الأغنية 2 ✨", src: "song2.mp3" },
+            { title: "الأغنية 3 🎶", src: "song3.mp3" }
         ];
         let currentSongIndex = 0;
         const audio = document.getElementById('playlistAudio');
