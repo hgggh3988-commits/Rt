@@ -570,7 +570,7 @@
                 </div>
                 <div class="room-card" id="card-room2" onclick="openRoom('room2')">
                     <h4>اول فيلم اتفرجنا عليه سوا🩷✨</h4>
-                    <small>2026/10/29 ✨🩷</small>
+                    <small>ولنا في الخيال.. حب🩷✨</small>
                     <span class="room-lock-badge" id="badge-room2">يفتح 2026/12/01</span>
                 </div>
                 <div class="room-card" id="card-room3" onclick="openRoom('room3')">
@@ -591,9 +591,9 @@
             <div class="song-title" id="song-title-display">Music Playlist 🎶</div>
             <audio id="playlistAudio"></audio>
             <div class="playlist-controls">
-                <button onclick="prevSong()">⏮ السابق</button>
+                <button onclick="prevSong()">previous</button>
                 <button onclick="toggleMusic()" id="musicBtn">Play 🩷</button>
-                <button onclick="nextSong()">التالي ⏭</button>
+                <button onclick="nextSong()">next</button>
             </div>
         </div>
 
@@ -700,7 +700,7 @@
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
-                musicBtn.innerText = "⏸ إيقاف";
+                musicBtn.innerText = "stop🩷";
             } else {
                 audio.pause();
                 musicBtn.innerText = "Play 🩷";
@@ -711,14 +711,14 @@
             currentSongIndex = (currentSongIndex + 1) % playlist.length;
             loadSong();
             audio.play();
-            musicBtn.innerText = "⏸ إيقاف";
+            musicBtn.innerText = "stop🩷";
         }
 
         function prevSong() {
             currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
             loadSong();
             audio.play();
-            musicBtn.innerText = "⏸ إيقاف";
+            musicBtn.innerText = "stop🩷";
         }
 
         function openNote() {
@@ -739,14 +739,6 @@
         }
 
         // --- إعدادات التوقيتات والقفل الزمني ---
-        // الروم 1 مفتوح دائماً (null)
-        // الروم 2 يفتح 2026/12/01 الساعة 12:00 AM
-        // الروم 3 يفتح 2026/12/15 الساعة 12:00 AM
-        // الروم 4 يفتح 2026/12/31 الساعة 12:00 AM
-        // أجزاء الروم 4:
-        // الجزء 1: 2026/12/31 01:00 AM
-        // الجزء 2: 2026/12/31 12:00 PM
-        // الجزء 3: 2027/01/01 12:00 AM
         const unlockTimes = {
             room1: null,
             room2: new Date(2026, 11, 1, 0, 0, 0),
@@ -827,7 +819,7 @@
                         text: `كلام الجزء الأول هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
                     },
                     {
-                        title: "حاجات بينا لو طلعت بره هنتفضح سوا😂🩷",
+                        title: "حاجات بينا لو طلعت برّه مش هنسلم من التريقة 😂🩷",
                         time: "يفتح: 2026/12/31 12:00 PM",
                         unlockDate: unlockTimes.room4Part2,
                         lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2026/12/31 الساعة 12:00 PM 🩷",
@@ -862,7 +854,6 @@
             audioContainer.innerHTML = '';
             imgContainer.innerHTML = '';
 
-            // التحقق من قفل الروم نفسه
             if (!isUnlocked(unlockTimes[roomId])) {
                 document.getElementById('modal-body').innerHTML =
                     '<div class="locked-notice-box">' +
