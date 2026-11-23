@@ -75,6 +75,17 @@
             border-color: #ff66a3;
         }
 
+        body.dark-mode .room-card.locked-room {
+            background: #140717;
+            border-color: #7a2448 !important;
+            opacity: 0.85;
+        }
+
+        body.dark-mode .room4-part-card.locked-part {
+            background: #140717;
+            border-color: #7a2448 !important;
+        }
+
         body.dark-mode input[type="password"] {
             background: #230d28;
             color: #fff;
@@ -257,6 +268,12 @@
             cursor: pointer;
         }
 
+        .room-card.locked-room {
+            background: #f8e8ee;
+            border-color: #d48ba8;
+            opacity: 0.88;
+        }
+
         .room-card h4 {
             color: #d63384;
             font-size: 14px;
@@ -266,6 +283,19 @@
         .room-card small {
             font-size: 10px;
             color: #777;
+            display: block;
+            line-height: 1.4;
+        }
+
+        .room-lock-badge {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
+            background: rgba(214, 51, 132, 0.14);
+            color: #c2185b;
         }
 
         .playlist-controls {
@@ -368,6 +398,11 @@
             text-align: right;
         }
 
+        .room4-part-card.locked-part {
+            background: #f9ebf0;
+            border-color: #d48ba8;
+        }
+
         .room4-part-header {
             display: flex;
             justify-content: space-between;
@@ -402,6 +437,15 @@
             line-height: 1.75;
             color: #444;
             white-space: pre-line;
+        }
+
+        .locked-notice-box {
+            text-align: center;
+            padding: 18px 12px;
+            border-radius: 15px;
+            background: rgba(255, 107, 129, 0.12);
+            border: 1px dashed #ff6b81;
+            margin-top: 10px;
         }
 
         .modal-content img {
@@ -517,24 +561,28 @@
 
         <!-- الرومات الأربعة -->
         <div class="rooms-card">
-            <div class="timer-title">كل ما تفتحي حكاية...هتلاقيني بحبك بطريقة جديده🩷✨</div>
+            <div class="timer-title">💌 صناديق ورومات الذكريات</div>
             <div class="rooms-grid">
-                <div class="room-card" onclick="openRoom('room1')">
+                <div class="room-card" id="card-room1" onclick="openRoom('room1')">
                     <h4>ليكي انتِ.. بصوتي من قلبي ل قلبك🩷🫂</h4>
                     <small>بنكتب حكايتنا سوا من كل قلبنا🩷✨</small>
+                    <span class="room-lock-badge" id="badge-room1">مفتوح الآن 🩷</span>
                 </div>
-                <div class="room-card" onclick="openRoom('room2')">
+                <div class="room-card" id="card-room2" onclick="openRoom('room2')">
                     <h4>اول فيلم اتفرجنا عليه سوا🩷✨</h4>
-                    <small>ولنا في الخيال... حب؟ </small>
+                    <small>2026/10/29 ✨🩷</small>
+                    <span class="room-lock-badge" id="badge-room2">يفتح 2026/12/01</span>
                 </div>
-                <div class="room-card" onclick="openRoom('room3')">
+                <div class="room-card" id="card-room3" onclick="openRoom('room3')">
                     <h4>بين صوتي و صوتك احساس و حكايه بتكبر بينا🫂🩷</h4>
                     <small>مكالمتنا مش مجرد كلام
 ده احساس و فهم بيكبر بينا كل يوم🩷✨</small>
+                    <span class="room-lock-badge" id="badge-room3">يفتح 2026/12/15</span>
                 </div>
-                <div class="room-card" onclick="openRoom('room4')">
+                <div class="room-card" id="card-room4" onclick="openRoom('room4')">
                     <h4>انا جنبك النهاردة وكل يوم🩷✨</h4>
                     <small>3 رسايل ليكي.. كل واحدة هتفتح ف وقتها🩷✨</small>
+                    <span class="room-lock-badge" id="badge-room4">يفتح 2026/12/31</span>
                 </div>
             </div>
         </div>
@@ -543,9 +591,9 @@
             <div class="song-title" id="song-title-display">Music Playlist 🎶</div>
             <audio id="playlistAudio"></audio>
             <div class="playlist-controls">
-                <button onclick="prevSong()">previous ⏮ </button>
+                <button onclick="prevSong()">⏮ السابق</button>
                 <button onclick="toggleMusic()" id="musicBtn">Play 🩷</button>
-                <button onclick="nextSong()">next ⏭</button>
+                <button onclick="nextSong()">التالي ⏭</button>
             </div>
         </div>
 
@@ -623,11 +671,12 @@
     <script>
         function checkPassword() {
             var passInput = document.getElementById('pass-input').value;
-            if (passInput === "123") {
+            if (passInput === "A♡R") {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 startTimer();
                 loadSong();
+                refreshRoomLocksUI();
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
@@ -651,7 +700,7 @@
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
-                musicBtn.innerText = "stop🩷";
+                musicBtn.innerText = "⏸ إيقاف";
             } else {
                 audio.pause();
                 musicBtn.innerText = "Play 🩷";
@@ -662,14 +711,14 @@
             currentSongIndex = (currentSongIndex + 1) % playlist.length;
             loadSong();
             audio.play();
-            musicBtn.innerText = "stop🩷";
+            musicBtn.innerText = "⏸ إيقاف";
         }
 
         function prevSong() {
             currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
             loadSong();
             audio.play();
-            musicBtn.innerText = "stop🩷";
+            musicBtn.innerText = "⏸ إيقاف";
         }
 
         function openNote() {
@@ -689,6 +738,54 @@
             document.getElementById('galleryModal').style.display = 'none';
         }
 
+        // --- إعدادات التوقيتات والقفل الزمني ---
+        // الروم 1 مفتوح دائماً (null)
+        // الروم 2 يفتح 2026/12/01 الساعة 12:00 AM
+        // الروم 3 يفتح 2026/12/15 الساعة 12:00 AM
+        // الروم 4 يفتح 2026/12/31 الساعة 12:00 AM
+        // أجزاء الروم 4:
+        // الجزء 1: 2026/12/31 01:00 AM
+        // الجزء 2: 2026/12/31 12:00 PM
+        // الجزء 3: 2027/01/01 12:00 AM
+        const unlockTimes = {
+            room1: null,
+            room2: new Date(2026, 11, 1, 0, 0, 0),
+            room3: new Date(2026, 11, 15, 0, 0, 0),
+            room4: new Date(2026, 11, 31, 0, 0, 0),
+            room4Part1: new Date(2026, 11, 31, 1, 0, 0),
+            room4Part2: new Date(2026, 11, 31, 12, 0, 0),
+            room4Part3: new Date(2027, 0, 1, 0, 0, 0)
+        };
+
+        function isUnlocked(unlockDate) {
+            if (!unlockDate) return true;
+            return new Date() >= unlockDate;
+        }
+
+        function refreshRoomLocksUI() {
+            const roomLabels = {
+                room1: { open: "مفتوح الآن 🩷", locked: "" },
+                room2: { open: "مفتوح الآن 🩷", locked: "🔒 يفتح 2026/12/01" },
+                room3: { open: "مفتوح الآن 🩷", locked: "🔒 يفتح 2026/12/15" },
+                room4: { open: "مفتوح الآن 🩷", locked: "🔒 يفتح 2026/12/31" }
+            };
+
+            ['room1', 'room2', 'room3', 'room4'].forEach(id => {
+                const card = document.getElementById('card-' + id);
+                const badge = document.getElementById('badge-' + id);
+                const unlocked = isUnlocked(unlockTimes[id]);
+                if (card && badge) {
+                    if (unlocked) {
+                        card.classList.remove('locked-room');
+                        badge.innerText = roomLabels[id].open;
+                    } else {
+                        card.classList.add('locked-room');
+                        badge.innerText = roomLabels[id].locked;
+                    }
+                }
+            });
+        }
+
         // --- محتوى الرومات الأربعة ---
         const roomData = {
             room1: { 
@@ -701,16 +798,19 @@
             room2: { 
                 title: "اول فيلم شوفناه سوا🩷🌚", 
                 movieDate: "2026/10/29",
+                lockedMessage: "🔒 الروم ده مقفول حالياً وهيفتح بتاريخ 2026/12/01 الساعة 12:00 AM 🩷✨",
                 text: `من احلي الحاجات اللي حصلت بينا بجد اليوم ده مستحيل انساه ولا انسا اي تفصيله فيه بجد من بداية كلامنا ف اليوم لحد ما نمنا سوا ف الكول مع بعض و كلامنا و اعترفنا ب كل حاجه لبعض و صدقنا و مشاعرنا سوا لبعض بجد احلي حاجه حصلت ف حياتنا سوا بجد يبنوتي ربنا يديمك ليا يقلب بابا🩷🫂`
             },
             room3: { 
                 title: "مكالمتنا سوا🩷", 
+                lockedMessage: "🔒 الروم ده مقفول حالياً وهيفتح بتاريخ 2026/12/15 الساعة 12:00 AM 🩷✨",
                 text: `بنووووتي🌚🩷
 مكالمتنا سوا و اسكرينات مكالمتنا بجد مش مجرد اسكرينات او عدد ساعات كلام  لا بجد مكالمتنا فيها كل حاجه حلوه بجد من بداية كلامنا ف الكول و اننا بنسمع صوت بعض و بنرخم ع بعض و كل حاجه سوا ف خلال اليوم بنبقا مع بعض طول الوقت و اننا بنفهم بعض اكتر وبنحس ببعض اكتر بجد ف مكالمتنا سوا مش مجرد عدد ساعات او كلام بينا و خلاص لا دي بالنسبالي حياة بجد و ايامنا لما بتعدي من غير كول ببقا مدايق بجد ببقا محتاج اسمع صوتك و اسمع كلام معين منك عشان اكمل يومي و احس ان  باقي يومي ابقا تمام عشان سمعت صوتك و احسسنا سوا مع بعض و كلامنا و كل حاجه بجد بحبك اوووووووووي🩷🩷🩷🩷✨`,
                 img: "room-img3.jpg"
             },
             room4: { 
                 title: "🩷✨ذكرى غالية وبداية سنة جديد", 
+                lockedMessage: "🔒 الروم ده مقفول حالياً وهيفتح بتاريخ 2026/12/31 الساعة 12:00 AM 🩷✨",
                 text: `النهاردة مش يوم عادي زي باقي الايام النهاردة يوم فيه وجع و الم علي عمو ربنا يرحمه❤️‍🩹
 و النهاردة برضو زي ما هو يوم مش الطف حاجه بالنسبالك
 انا عارف ان وجودي مش هيمسح الوجع بس انا موجود و معاكي و جمبك ينن عيوني🩷🫂
@@ -721,17 +821,23 @@
                 parts: [
                     {
                         title: "🩷 أنا هنا يا ميرو",
-                        time: "يفتح: 31/12 الساعة 1:00 بعد منتصف الليل",
+                        time: "يفتح: 2026/12/31 01:00 AM",
+                        unlockDate: unlockTimes.room4Part1,
+                        lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2026/12/31 الساعة 01:00 AM 🩷",
                         text: `كلام الجزء الأول هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
                     },
                     {
-                        title: "حاجات بينا لو طلعت برّه مش هنسلم من التريقة 😂🩷",
-                        time: "يفتح: 31/12 الساعة 12:00 الظهر",
+                        title: "حاجات بينا لو طلعت بره هنتفضح سوا😂🩷",
+                        time: "يفتح: 2026/12/31 12:00 PM",
+                        unlockDate: unlockTimes.room4Part2,
+                        lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2026/12/31 الساعة 12:00 PM 🩷",
                         text: `كلام الجزء الثاني هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
                     },
                     {
                         title: "سنة جديدة وإنتي أولها🩷🫂",
-                        time: "يفتح: 1/1 الساعة 12:00 منتصف الليل (السنة الجديدة)",
+                        time: "يفتح: 2027/01/01 12:00 AM",
+                        unlockDate: unlockTimes.room4Part3,
+                        lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2027/01/01 الساعة 12:00 AM 🩷",
                         text: `كلام الجزء الثالث هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
                     }
                 ]
@@ -744,55 +850,71 @@
                 musicBtn.innerText = "Play 🩷";
             }
 
-            document.getElementById('modal-title').innerText = roomData[roomId].title;
-            document.getElementById('modal-body').innerText = roomData[roomId].text;
-
+            const room = roomData[roomId];
             const extraContainer = document.getElementById('modal-extra-container');
-            if (roomData[roomId].movieDate) {
+            const partsContainer = document.getElementById('modal-parts-container');
+            const audioContainer = document.getElementById('modal-audio-container');
+            const imgContainer = document.getElementById('modal-img-container');
+
+            document.getElementById('modal-title').innerText = room.title;
+            extraContainer.innerHTML = '';
+            partsContainer.innerHTML = '';
+            audioContainer.innerHTML = '';
+            imgContainer.innerHTML = '';
+
+            // التحقق من قفل الروم نفسه
+            if (!isUnlocked(unlockTimes[roomId])) {
+                document.getElementById('modal-body').innerHTML =
+                    '<div class="locked-notice-box">' +
+                    '<p style="font-size: 15px; font-weight: bold; color: #c2185b;">' +
+                    (room.lockedMessage || "🔒 هذا الروم مقفول حالياً وسيفتح في موعده المحدد.") +
+                    '</p>' +
+                    '</div>';
+                document.getElementById('genericModal').style.display = 'flex';
+                return;
+            }
+
+            document.getElementById('modal-body').innerText = room.text;
+
+            if (room.movieDate) {
                 extraContainer.innerHTML =
                     '<div class="movie-date-badge">' +
                     '<span class="movie-date-sub">🎞️ تاريخ الفيلم</span>' +
-                    roomData[roomId].movieDate +
+                    room.movieDate +
                     '</div>';
-            } else {
-                extraContainer.innerHTML = '';
             }
 
-            const partsContainer = document.getElementById('modal-parts-container');
-            if (roomData[roomId].parts && roomData[roomId].parts.length > 0) {
+            if (room.parts && room.parts.length > 0) {
                 let partsHtml = '<div class="room4-parts-list">';
-                roomData[roomId].parts.forEach(part => {
+                room.parts.forEach(part => {
+                    const partUnlocked = isUnlocked(part.unlockDate);
+                    const displayedText = partUnlocked
+                        ? part.text
+                        : (part.lockedText || ("🔒 يفتح في موعده: " + part.time));
+
                     partsHtml +=
-                        '<div class="room4-part-card">' +
+                        '<div class="room4-part-card' + (partUnlocked ? '' : ' locked-part') + '">' +
                         '<div class="room4-part-header">' +
                         '<span class="room4-part-title">' + part.title + '</span>' +
                         '<span class="room4-part-time">⏰ ' + part.time + '</span>' +
                         '</div>' +
-                        '<div class="room4-part-text">' + part.text + '</div>' +
+                        '<div class="room4-part-text">' + displayedText + '</div>' +
                         '</div>';
                 });
                 partsHtml += '</div>';
                 partsContainer.innerHTML = partsHtml;
-            } else {
-                partsContainer.innerHTML = '';
             }
 
-            const audioContainer = document.getElementById('modal-audio-container');
-            if (roomData[roomId].audio) {
+            if (room.audio) {
                 audioContainer.innerHTML =
                     '<div class="room-audio-box">' +
                     '<div class="room-audio-label">🩷TO BASBOSTI🩷</div>' +
-                    '<audio controls preload="metadata" src="' + roomData[roomId].audio + '"></audio>' +
+                    '<audio controls preload="metadata" src="' + room.audio + '"></audio>' +
                     '</div>';
-            } else {
-                audioContainer.innerHTML = '';
             }
             
-            const imgContainer = document.getElementById('modal-img-container');
-            if (roomData[roomId].img) {
-                imgContainer.innerHTML = '<img src="' + roomData[roomId].img + '" alt="Room Image">';
-            } else {
-                imgContainer.innerHTML = '';
+            if (room.img) {
+                imgContainer.innerHTML = '<img src="' + room.img + '" alt="Room Image">';
             }
 
             document.getElementById('genericModal').style.display = 'flex';
@@ -850,7 +972,10 @@
 
         function startTimer() {
             updateTimer();
-            setInterval(updateTimer, 1000);
+            setInterval(() => {
+                updateTimer();
+                refreshRoomLocksUI();
+            }, 1000);
         }
 
         function createHearts() {
