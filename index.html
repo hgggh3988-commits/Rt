@@ -517,7 +517,7 @@
 
         <!-- الرومات الأربعة -->
         <div class="rooms-card">
-            <div class="timer-title">💌 صناديق ورومات الذكريات</div>
+            <div class="timer-title">كل ما تفتحي حكاية...هتلاقيني بحبك بطريقة جديده🩷✨</div>
             <div class="rooms-grid">
                 <div class="room-card" onclick="openRoom('room1')">
                     <h4>ليكي انتِ.. بصوتي من قلبي ل قلبك🩷🫂</h4>
@@ -525,7 +525,7 @@
                 </div>
                 <div class="room-card" onclick="openRoom('room2')">
                     <h4>اول فيلم اتفرجنا عليه سوا🩷✨</h4>
-                    <small>2026/10/29 ✨🩷</small>
+                    <small>ولنا في الخيال... حب؟ </small>
                 </div>
                 <div class="room-card" onclick="openRoom('room3')">
                     <h4>بين صوتي و صوتك احساس و حكايه بتكبر بينا🫂🩷</h4>
@@ -543,9 +543,9 @@
             <div class="song-title" id="song-title-display">Music Playlist 🎶</div>
             <audio id="playlistAudio"></audio>
             <div class="playlist-controls">
-                <button onclick="prevSong()">⏮ السابق</button>
+                <button onclick="prevSong()">previous ⏮ </button>
                 <button onclick="toggleMusic()" id="musicBtn">Play 🩷</button>
-                <button onclick="nextSong()">التالي ⏭</button>
+                <button onclick="nextSong()">next ⏭</button>
             </div>
         </div>
 
@@ -651,7 +651,7 @@
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
-                musicBtn.innerText = "⏸ إيقاف";
+                musicBtn.innerText = "stop🩷";
             } else {
                 audio.pause();
                 musicBtn.innerText = "Play 🩷";
@@ -662,14 +662,14 @@
             currentSongIndex = (currentSongIndex + 1) % playlist.length;
             loadSong();
             audio.play();
-            musicBtn.innerText = "⏸ إيقاف";
+            musicBtn.innerText = "stop🩷";
         }
 
         function prevSong() {
             currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
             loadSong();
             audio.play();
-            musicBtn.innerText = "⏸ إيقاف";
+            musicBtn.innerText = "stop🩷";
         }
 
         function openNote() {
@@ -725,7 +725,7 @@
                         text: `كلام الجزء الأول هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
                     },
                     {
-                        title: "حاجات بينا لو طلعت بره هنتفضح سوا😂🩷",
+                        title: "حاجات بينا لو طلعت برّه مش هنسلم من التريقة 😂🩷",
                         time: "يفتح: 31/12 الساعة 12:00 الظهر",
                         text: `كلام الجزء الثاني هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
                     },
