@@ -735,7 +735,7 @@
             <div class="rooms-grid">
                 <div class="room-card has-cover" id="card-room1" onclick="handleRoomCardClick('room1')">
                     <div class="room-cover-overlay" id="cover-room1" style="background-image: url('cover-room1.jpg');">
-                        <div class="cover-schedule-bar">open🩷✨</div>
+                        <div class="cover-schedule-bar">🩷open🩷</div>
                     </div>
                     <div class="room-card-content">
                         <h4>ليكي انتِ.. بصوتي من قلبي ل قلبك🩷🫂</h4>
@@ -990,10 +990,10 @@
 
         function refreshRoomLocksUI() {
             const roomSchedules = {
-                room1: { openText: "open🩷✨", badgeOpen: "مفتوح الآن 🩷" },
-                room2: { openText: "🩷start🩷", lockedLabel: "🩷open in 2026/12/01🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/01🩷" },
-                room3: { openText: "🩷start🩷", lockedLabel: "", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/15🩷" },
-                room4: { openText: "🩷start🩷", lockedLabel: "🩷open in 2026/12/31🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/31🩷" }
+                room1: { openText: "🩷open🩷", badgeOpen: "مفتوح الآن 🩷" },
+                room2: { openText: "🩷open🩷", lockedLabel: "🩷open in 2026/12/01🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/01🩷" },
+                room3: { openText: "🩷open🩷", lockedLabel: "", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/15🩷" },
+                room4: { openText: "🩷open🩷", lockedLabel: "🩷open in 2026/12/31🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/31🩷" }
             };
 
             ['room1', 'room2', 'room3', 'room4'].forEach(id => {
@@ -1058,7 +1058,7 @@
                 }
 
                 if (partUnlocked) {
-                    footerEl.innerHTML = '🩷✨start✨🩷';
+                    footerEl.innerHTML = '🩷✨open✨🩷';
                 } else {
                     const cdText = formatRemainingCountdown(part.unlockDate);
                     footerEl.innerHTML =
@@ -1270,7 +1270,7 @@ I'm so happy we get to start the new year together🫂🩷`
                         '<img class="part-cover-img" src="' + part.coverImg + '" alt="Part Cover">' +
                         '<div class="part-cover-footer" id="part-cover-footer-' + idx + '">' +
                         (partUnlocked
-                            ? '🩷✨start✨🩷'
+                            ? '🩷✨open✨🩷'
                             : ('🔒 ' + fixBidi(part.time) + '<span class="cover-countdown-text">' + cdText + '</span>')) +
                         '</div>' +
                         '</div>' +
