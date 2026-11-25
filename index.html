@@ -821,7 +821,6 @@
             if (passInput === "A♡R") {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
-                syncTrustedTime();
                 startTimer();
                 loadSong();
                 refreshRoomLocksUI();
@@ -917,85 +916,13 @@
             return String(s).replace(/(\d{4}\/\d{1,2}\/\d{1,2}(?:\s+\d{1,2}:\d{2}\s*[AP]M)?|\d{1,2}:\d{2}\s*[AP]M)/g, '<bdi dir="ltr">$1</bdi>');
         }
 
-        // --- الوقت الموثوق: بنسأل النت عن توقيت القاهرة الحقيقي ---
-        // ساعة الجهاز لوحدها مش دليل فتح؛ ولو مفيش نت الرومات المقفولة تستنى (قرار صاحب الموقع)
-        const trusted = { epochMs: null, perfAtFetch: 0 };
-
-        // تلاتة مصادر للوقت بالترتيب: لو واحد وقع يجرب اللي بعده
-        async function syncTrustedTime() {
-            const sources = [
-                async () => { // Cloudflare - ts= بالثواني UTC
-                    const r = await fetch('https://cloudflare.com/cdn-cgi/trace', { cache: 'no-store' });
-                    if (!r.ok) throw new Error('http ' + r.status);
-                    const m = (await r.text()).match(/^ts=([0-9.]+)$/m);
-                    if (!m) throw new Error('no ts');
-                    return Math.round(parseFloat(m[1]) * 1000);
-                },
-                async () => { // نفس الخدمة على عنوان تاني
-                    const r = await fetch('https://1.1.1.1/cdn-cgi/trace', { cache: 'no-store' });
-                    if (!r.ok) throw new Error('http ' + r.status);
-                    const m = (await r.text()).match(/^ts=([0-9.]+)$/m);
-                    if (!m) throw new Error('no ts');
-                    return Math.round(parseFloat(m[1]) * 1000);
-                },
-                async () => { // timeapi.io - JSON بالتوقيت العالمي UTC
-                    const r = await fetch('https://timeapi.io/api/time/current/zone?timeZone=UTC', { cache: 'no-store' });
-                    if (!r.ok) throw new Error('http ' + r.status);
-                    const j = await r.json();
-                    return Date.UTC(j.year, j.month - 1, j.day, j.hour, j.minute, j.seconds, j.milliSeconds || 0);
-                }
-            ];
-            for (const getTime of sources) {
-                try {
-                    trusted.epochMs = await getTime();
-                    trusted.perfAtFetch = performance.now();
-                    break;
-                } catch (e) {
-                    // المصدر ده مش متاح، نجرب اللي بعده
-                }
-            }
-            refreshRoomLocksUI();
-        }
-
-        // توقيت UTC الحقيقي: وقت السيرفر + المدة من الجلب بساعة monotonic لا تتأثر بتغيير ساعة الجهاز
-        function trustedNowEpochMs() {
-            if (trusted.epochMs === null) return null;
-            return trusted.epochMs + (performance.now() - trusted.perfAtFetch);
-        }
-
-        // تحويل توقيت UTC لـ"ساعة حيطة" بتوقيت القاهرة (يشمل التوقيت الصيفي تلقائياً)
-        function cairoWallMsOf(epochMs) {
-            const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Africa/Cairo', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' }).formatToParts(new Date(epochMs));
-            const g = t => parseInt(parts.find(p => p.type === t).value, 10);
-            return Date.UTC(g('year'), g('month') - 1, g('day'), g('hour'), g('minute'), g('second'));
-        }
-
-        // وقت القاهرة الحالي بالمللي ثانية، أو null لو لسه متأكدناش
-        function trustedNowWallMs() {
-            const e = trustedNowEpochMs();
-            return e === null ? null : cairoWallMsOf(e);
-        }
-
-        function unlockWallMsOf(d) {
-            return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
-        }
-
-        function wallMsToLocalDate(w) {
-            const u = new Date(w);
-            return new Date(u.getUTCFullYear(), u.getUTCMonth(), u.getUTCDate(), u.getUTCHours(), u.getUTCMinutes(), u.getUTCSeconds());
-        }
-
         function isUnlocked(unlockDate) {
             if (!unlockDate) return true;
-            const wall = trustedNowWallMs();
-            if (wall === null) return false;
-            return wall >= unlockWallMsOf(unlockDate);
+            return new Date() >= unlockDate;
         }
 
         function formatRemainingCountdown(targetDate) {
-            const wall = trustedNowWallMs();
-            if (wall === null) return "مستنيين النت يتأكد من الوقت 🩷";
-            const diff = unlockWallMsOf(targetDate) - wall;
+            const diff = targetDate - new Date();
             if (diff <= 0) return "";
             const totalSec = Math.floor(diff / 1000);
             const days = Math.floor(totalSec / (3600 * 24));
@@ -1304,8 +1231,7 @@ I'm so happy we get to start the new year together🫂🩷`
         const startDate = new Date('2026-09-16T00:00:00');
 
         function updateTimer() {
-            const wall = trustedNowWallMs();
-            const now = wall !== null ? wallMsToLocalDate(wall) : new Date();
+            const now = new Date();
             let diff = now - startDate;
             if (diff < 0) diff = 0;
 
@@ -1342,9 +1268,6 @@ I'm so happy we get to start the new year together🫂🩷`
                 updateTimer();
                 refreshRoomLocksUI();
             }, 1000);
-            // لو الوقت الموثوق لسه مجاش، نحاول كل ٣٠ ثانية ولما النت يرجع
-            setInterval(() => { if (trusted.epochMs === null) syncTrustedTime(); }, 15000);
-            window.addEventListener('online', syncTrustedTime);
         }
 
         function createHearts() {
