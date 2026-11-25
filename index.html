@@ -543,19 +543,43 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .room4-part-title {
             font-size: 15px;
             font-weight: 700;
             color: #d63384;
+            line-height: 1.4;
         }
 
         body.dark-mode .room4-part-title {
             color: #ff66a3;
+        }
+
+        .part-close-btn {
+            background: rgba(255, 107, 129, 0.16);
+            color: #d63384;
+            border: 1px solid #ff85a2;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: none;
+            flex-shrink: 0;
+            line-height: 1.2;
+        }
+
+        .part-close-btn:hover {
+            background: rgba(255, 107, 129, 0.28);
+        }
+
+        body.dark-mode .part-close-btn {
+            background: rgba(255, 102, 163, 0.18);
+            color: #ff99c2;
+            border-color: #ff66a3;
         }
 
         .room4-part-time {
@@ -614,16 +638,32 @@
             outline: none;
         }
 
+        /* تثبيت علامة الإكس أعلى النافذة أثناء التمرير */
         .close-btn {
-            position: absolute;
-            top: 8px;
-            left: 12px;
-            font-size: 28px;
+            position: sticky;
+            top: -10px;
+            float: left;
+            font-size: 26px;
+            line-height: 1;
             cursor: pointer;
             color: #ff6b81;
+            background: rgba(255, 249, 250, 0.92);
+            border: 1px solid rgba(255, 133, 162, 0.45);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
-            z-index: 10;
-            padding: 5px 10px;
+            z-index: 25;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        body.dark-mode .close-btn {
+            background: rgba(25, 10, 28, 0.92);
+            color: #ff85a2;
+            border-color: rgba(255, 102, 163, 0.45);
         }
 
         .popup-gallery-container {
@@ -695,7 +735,7 @@
             <div class="rooms-grid">
                 <div class="room-card has-cover" id="card-room1" onclick="handleRoomCardClick('room1')">
                     <div class="room-cover-overlay" id="cover-room1" style="background-image: url('cover-room1.jpg');">
-                        <div class="cover-schedule-bar">دوسة واحدة تفتح الغلاف 🩷</div>
+                        <div class="cover-schedule-bar">open🩷✨</div>
                     </div>
                     <div class="room-card-content">
                         <h4>ليكي انتِ.. بصوتي من قلبي ل قلبك🩷🫂</h4>
@@ -707,7 +747,7 @@
                 <div class="room-card has-cover" id="card-room2" onclick="handleRoomCardClick('room2')">
                     <div class="room-cover-overlay" id="cover-room2" style="background-image: url('cover-room2.jpg');">
                         <div class="cover-schedule-bar" id="schedule-room2">
-                            🔒 يفتح 2026/12/01
+                            🩷open in 2026/12/01🩷
                             <span class="cover-countdown-text" id="countdown-room2"></span>
                         </div>
                     </div>
@@ -721,7 +761,7 @@
                 <div class="room-card has-cover" id="card-room3" onclick="handleRoomCardClick('room3')">
                     <div class="room-cover-overlay" id="cover-room3" style="background-image: url('cover-room3.jpg');">
                         <div class="cover-schedule-bar" id="schedule-room3">
-                            🔒 يفتح 2026/12/15
+                            
                             <span class="cover-countdown-text" id="countdown-room3"></span>
                         </div>
                     </div>
@@ -736,7 +776,7 @@
                 <div class="room-card has-cover" id="card-room4" onclick="handleRoomCardClick('room4')">
                     <div class="room-cover-overlay" id="cover-room4" style="background-image: url('cover-room4.jpg');">
                         <div class="cover-schedule-bar" id="schedule-room4">
-                            🔒 يفتح 2026/12/31
+                            🩷open in 2026/12/31🩷
                             <span class="cover-countdown-text" id="countdown-room4"></span>
                         </div>
                     </div>
@@ -945,15 +985,15 @@
             const hours = Math.floor((totalSec % (3600 * 24)) / 3600);
             const minutes = Math.floor((totalSec % 3600) / 60);
             const seconds = totalSec % 60;
-            return "باقي: " + days + "ي " + hours + "س " + minutes + "د " + seconds + "ث";
+            return "متبقي: " + days + "ي " + hours + "س " + minutes + "د " + seconds + "ث";
         }
 
         function refreshRoomLocksUI() {
             const roomSchedules = {
-                room1: { openText: "دوسة واحدة تفتح الغلاف 🩷", badgeOpen: "مفتوح الآن 🩷" },
-                room2: { openText: "🔓 دوسة واحدة تفتح الغلاف", lockedLabel: "🔒 يفتح 2026/12/01", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/01" },
-                room3: { openText: "🔓 دوسة واحدة تفتح الغلاف", lockedLabel: "🔒 يفتح 2026/12/15", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/15" },
-                room4: { openText: "🔓 دوسة واحدة تفتح الغلاف", lockedLabel: "🔒 يفتح 2026/12/31", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/31" }
+                room1: { openText: "open🩷✨", badgeOpen: "مفتوح الآن 🩷" },
+                room2: { openText: "🩷start🩷", lockedLabel: "🩷open in 2026/12/01🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/01🩷" },
+                room3: { openText: "🩷start🩷", lockedLabel: "", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/15🩷" },
+                room4: { openText: "🩷start🩷", lockedLabel: "🩷open in 2026/12/31🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/31🩷" }
             };
 
             ['room1', 'room2', 'room3', 'room4'].forEach(id => {
@@ -1018,7 +1058,7 @@
                 }
 
                 if (partUnlocked) {
-                    footerEl.innerHTML = '🔓 دوسة واحدة تفتح الرسالة';
+                    footerEl.innerHTML = '🩷✨start✨🩷';
                 } else {
                     const cdText = formatRemainingCountdown(part.unlockDate);
                     footerEl.innerHTML =
@@ -1069,7 +1109,7 @@
                 title: "مكالمتنا سوا🩷", 
                 lockedMessage: "🔒 الروم ده مقفول حالياً وهيفتح بتاريخ 2026/12/15 الساعة 12:00 AM 🩷✨",
                 text: `بنووووتي🌚🩷
-مكالمتنا سوا و اسكرينات مكالمتنا بجد مش مجرد اسكرينات او عدد ساعات كلام  لا بجد مكالمتنا فيها كل حاجه حلوه بجد من بداية كلامنا ف الكول و اننا بنسمع صوت بعض و بنرخم ع بعض و كل حاجه سوا ف خلال اليوم بنبقا مع بعض طول الوقت و اننا بنفهم بعض اكتر وبنحس ببعض اكتر بجد ف مكالمتنا سوا مش مجرد عدد ساعات او كلام بينا و خلاص لا دي بالنسبالي حياة بجد و ايامنا لما بتعدي من غير كول ببقا مدايق بجد ببقا محتاج اسمع صوتك و اسمع كلام معين منك عشان اكمل يومي و احس ان  باقي يومي ابقا تمام عشان سمعت صوتك و احسسنا سوا مع بعض و كلامنا و كل حاجه بجد بحبك اوووووووووي🩷🩷🩷🩷✨`,
+مكالمتنا سوا و اسكرينات مكالمتنا بجد مش مجرد اسكرينات او عدد ساعات كلام  لا بجد مكالمتنا فيها كل حاجه حلوه بجد من بداية كلامنا ف الكول و اننا بنسمع صوت بعض و بنرخم ع بعض و كل حاجه سوا ف خلال اليوم بنبقا مع بعض طول الوقت و اننا بنفهم بعض اكتر وبنحس ببعض اكتر بجد ف مكالمتنا سوا مش مجرد عدد ساعات او كلام بينا و خلاص لا دي بالنسبالي حياة بجد و ايامنا لما بتعدي من غير كول ببقا مدايق بجد ببقا محتاج اسمع صوتك و اسمع كلام معين منك عشان اكمل يومي و احس ان   يومي ابقا تمام عشان سمعت صوتك و احسسنا سوا مع بعض و كلامنا و كل حاجه بجد بحبك اوووووووووي🩷🩷🩷🩷✨`,
                 img: "room-img3.jpg"
             },
             room4: { 
@@ -1157,6 +1197,23 @@ I'm so happy we get to start the new year together🫂🩷`
             }
         }
 
+        function closePartMessage(partIdx) {
+            const cardEl = document.getElementById('room4-part-card-' + partIdx);
+            const coverEl = document.getElementById('room4-part-cover-' + partIdx);
+            const contentEl = document.getElementById('room4-part-content-' + partIdx);
+
+            partCoverDismissed[partIdx] = false;
+            if (cardEl) cardEl.classList.add('has-part-cover');
+            if (coverEl) coverEl.classList.remove('dismissed');
+            if (contentEl) {
+                contentEl.style.opacity = '';
+                contentEl.style.transform = '';
+                contentEl.style.height = '';
+                contentEl.style.overflow = '';
+            }
+            refreshRoomLocksUI();
+        }
+
         function openRoom(roomId) {
             if (!audio.paused) {
                 audio.pause();
@@ -1213,13 +1270,14 @@ I'm so happy we get to start the new year together🫂🩷`
                         '<img class="part-cover-img" src="' + part.coverImg + '" alt="Part Cover">' +
                         '<div class="part-cover-footer" id="part-cover-footer-' + idx + '">' +
                         (partUnlocked
-                            ? '🔓 دوسة واحدة تفتح الرسالة'
+                            ? '🩷✨start✨🩷'
                             : ('🔒 ' + fixBidi(part.time) + '<span class="cover-countdown-text">' + cdText + '</span>')) +
                         '</div>' +
                         '</div>' +
                         '<div class="part-revealed-content" id="room4-part-content-' + idx + '">' +
                         '<div class="room4-part-header">' +
                         '<span class="room4-part-title">' + part.title + '</span>' +
+                        '<button type="button" class="part-close-btn" onclick="closePartMessage(' + idx + ')">close🩷</button>' +
                         '</div>' +
                         '<div class="room4-part-text">' + fixBidi(part.text) + '</div>' +
                         '</div>' +
