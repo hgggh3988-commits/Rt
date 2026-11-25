@@ -685,7 +685,7 @@
         const playlist = [
             { title: "✨Alnasyeb✨", src: "song.mp3" },
             { title: "🫂youm matabelna🫂", src: "song2.mp3" },
-            { title: "L habibty🫂❤", src: "song3.mp3" }
+            { title: "L habibty🫂🩷", src: "song3.mp3" }
         ];
         let currentSongIndex = 0;
         const audio = document.getElementById('playlistAudio');
@@ -697,32 +697,42 @@
             songTitleDisplay.innerText = playlist[currentSongIndex].title;
         }
 
+        // زر التشغيل بيتغير بس لما الصوت يشتغل فعلاً، ولو التشغيل فشل بيفضل "Play"
+        function playAndUpdateBtn() {
+            audio.play().then(function() {
+                musicBtn.innerText = "stop🩷";
+            }).catch(function() {
+                musicBtn.innerText = "Play 🩷";
+            });
+        }
+
+        // أي وقفة للصوت (بالزر أو بقفل الروم أو بانتهاء الأغنية) ترجّع الزر لوضعه الصح
+        audio.addEventListener('pause', function() {
+            musicBtn.innerText = "Play 🩷";
+        });
+
         function toggleMusic() {
             if (audio.paused) {
-                audio.play();
-                musicBtn.innerText = "stop🩷";
+                playAndUpdateBtn();
             } else {
                 audio.pause();
-                musicBtn.innerText = "Play 🩷";
             }
         }
 
         function nextSong() {
             currentSongIndex = (currentSongIndex + 1) % playlist.length;
             loadSong();
-            audio.play();
-            musicBtn.innerText = "stop🩷";
+            playAndUpdateBtn();
         }
 
         function prevSong() {
             currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
             loadSong();
-            audio.play();
-            musicBtn.innerText = "stop🩷";
+            playAndUpdateBtn();
         }
 
         function openNote() {
-            document.getElementById('modal-title').innerText = "To my soul 📝❤️";
+            document.getElementById('modal-title').innerText = "To my soul 📝🩷️";
             document.getElementById('modal-extra-container').innerHTML = '';
             document.getElementById('modal-body').innerText = "بصي بقا 🩷✨\nبقالنا فتره صغنن مع بعض بس بقينا اقرب اتنين لبعض و دخلنا قلب بعض بسرعه عشان شبه بعض في كل حاجه و زي بعض ف كل حاجه و دخلتي قلبي بجد 🩷✨\nيارب دايما مع بعض يصغنن و دائماً مبسوطين سوا ✨🩷\nRT08🩷✨";
             document.getElementById('modal-parts-container').innerHTML = '';
@@ -748,6 +758,11 @@
             room4Part2: new Date(2026, 11, 31, 12, 0, 0),
             room4Part3: new Date(2027, 0, 1, 0, 0, 0)
         };
+
+        // تثبيت اتجاه التاريخ والوقت من الشمال لليمين وسط الكلام العربي
+        function fixBidi(s) {
+            return String(s).replace(/(\d{4}\/\d{1,2}\/\d{1,2}(?:\s+\d{1,2}:\d{2}\s*[AP]M)?|\d{1,2}:\d{2}\s*[AP]M)/g, '<bdi dir="ltr">$1</bdi>');
+        }
 
         function isUnlocked(unlockDate) {
             if (!unlockDate) return true;
@@ -803,7 +818,7 @@
             room4: { 
                 title: "🩷✨ذكرى غالية وبداية سنة جديدة", 
                 lockedMessage: "🔒 الروم ده مقفول حالياً وهيفتح بتاريخ 2026/12/31 الساعة 12:00 AM 🩷✨",
-                text: `النهاردة مش يوم عادي زي باقي الايام النهاردة يوم فيه وجع و الم علي عمو ربنا يرحمه❤️‍🩹
+                text: `النهاردة مش يوم عادي زي باقي الايام النهاردة يوم فيه وجع و الم علي عمو ربنا يرحمه🩷️‍🩹
 و النهاردة برضو زي ما هو يوم مش الطف حاجه بالنسبالك
 انا عارف ان وجودي مش هيمسح الوجع بس انا موجود و معاكي و جمبك ينن عيوني🩷🫂
 احب اقولك انك مبقتيش لوحدك يروحي انا بقيت موجود و معاكي و في حياتك و جمبك يحبيبتي 🫂🩷
@@ -816,21 +831,42 @@
                         time: "يفتح: 2026/12/31 01:00 AM",
                         unlockDate: unlockTimes.room4Part1,
                         lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2026/12/31 الساعة 01:00 AM 🩷",
-                        text: `كلام الجزء الأول هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
+                        text: `ميرو.... احلي شخص عرفته ف حياتي و مش مجرد شخص حبيته او اتقابلنا انا قبلت نسخه تانيه مني شخص كل تفصيله فيه و كل حاجه فيه نسخه تانيه مني  و بقا مش حبيبي و روحي بس لا بقيتي بنوتي بجد.. بحبك اوي🫂🩷
+احب اقولك واطمنك يا بنوتي اني معاكي و جمبك دايما يحبيبتي ف كل وقت و كل مكان و في كل حالاتك يعمري معاكي و جمبك و اهون عليكي اي حاجه صعبه يعمري سندك و ظهرك لاخر يوم فعمرنا يحبيبتي🩷🫂و بنوتي مش مجرد كلمه او احساس او شعور لا نتي بنتي و حته مني بجد من اقل تفصيله بينا و من اقل احساس باحسه معاكي ببقا مبسوط و فرحان اول ما اسمع ضحكتك وقت ما تبقي مدايقه او انا مدايق انا اللي بضحك من كل قلبي اني سامع ضحكتك و انك معايا يعمري🫂🩷كل تفصيله فيكي و كل حاجه بجد بتفرق معايا جدا و بحبها جدا مهما كانت بسيطه والله يبنوتي 🩷🫂
+بحبك اوي يحياتي🫂🩷
+ربنا يديمك ليا يبنوتي و يجمعنا سوا يروحي علي خير ان شاءلله`
                     },
                     {
                         title: "حاجات بينا لو طلعت برّه مش هنسلم من التريقة 😂🩷",
                         time: "يفتح: 2026/12/31 12:00 PM",
                         unlockDate: unlockTimes.room4Part2,
                         lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2026/12/31 الساعة 12:00 PM 🩷",
-                        text: `كلام الجزء الثاني هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
+                        text: `ميرووووو.... احب اقولك ان تفاصيل يومنا اللي بنعيشها سوا لو طلعت بره  هناخد شويه تريقه فلل😂😂🩷
+اولهم لما ارن عليكي ونتي نايمه يمرارييي😂
+بكلم بني ادمه تانيه خالص بس بعيد عن اكده صوتك بيبقا كوتي اول ما تصحي م النوم😂🩷🌚
+و ببقا عايز استغل الفرصه عشان بتبقي مش فايقه😂بس بنسا والله
+و اعععععع ع موضوع النسيان ده اتعديتي منك رسمي خلاص😂🩷كنت انا المؤثر بقيت المتأثر😂😂ايش سويتي فيا
+و هبلنا طول اليوم ف الكووول😂🩷والله لو طلعت بره الحاجات دي هيدفنونا احيااء🩷😂😂😂😂
+بس ايا كان كل ده بعشقه يعمري ونا معاكي و بطلع كل اللي جوايا معاكي من غير تفكير و من غير تردد ثانيه حتي🩷🌚
+بتكلم ونا مطمن ونا مرتاح بجد 
+بحبك اوووووووووي🌚🩷🩷🩷🩷🩷🩷✨`
                     },
                     {
                         title: "سنة جديدة وإنتي أولها🩷🫂",
                         time: "يفتح: 2027/01/01 12:00 AM",
                         unlockDate: unlockTimes.room4Part3,
                         lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2027/01/01 الساعة 12:00 AM 🩷",
-                        text: `كلام الجزء الثالث هنا... (مفتوح حالياً للتعديل، وهنقفله مع التوقيتات في الآخر).`
+                        text: `سنة جديدة.... وانتي اولها🩷🫂
+بدأنا 2027 سوا🩷✨
+بتمنا انها تكون سنة خير علينا يحبيبتي و ربنا يبعد عننا كل وحش و انها تكون سنه جميله عليكي يحبيبتي من حيث كل شئ فيها و هتبقا اجمل سنة ف حياتي أبدأها من اولها ونا معايا بنوتي حبيبتي🩷🫂🫂🫂
+سنة جديدة ونتي اولها في كل شئ بجد انتي الاهم ف السنة دي من اي حاجه فيها بجد بالنسبالي و عقبال سنين عمرنا كلها سوا مع بعض يعمري و نحقق كل اللي نفسينا فيه يعمري و نكون سوا ف كل حاجه ف حياتنا دايما ينورعيوني🩷🫂
+بقالنا سوا 3 شهور و 16 يوم 
+احلي 3 شهور ونص عيشتهم ف حياتي 
+3 شهور و نص عنوانهم 
+عودة الروح للجسد و تلاقت مع من تحب🩷🫂
+احلي 3 شهور ونص بجد معاكي يميرو🫂🩷عرفت فيهم ان الدنيا حلوه اوي بجد معاكي حسيت بكل احساس و مشاعر حلوه بجد يعمري 🩷🫂
+هيبقا احلي يعمري بجد يوم ما نكون سوا و مع بعض ف بيت واحد يحبيبتي و بتمناها من ربنا ييسر لينا الامور ف وقتها بجد🫂🩷🩷🩷🩷🩷🩷🩷🩷
+I'm so happy we get to start the new year together🫂🩷`
                     }
                 ]
             }
@@ -858,7 +894,7 @@
                 document.getElementById('modal-body').innerHTML =
                     '<div class="locked-notice-box">' +
                     '<p style="font-size: 15px; font-weight: bold; color: #c2185b;">' +
-                    (room.lockedMessage || "🔒 هذا الروم مقفول حالياً وسيفتح في موعده المحدد.") +
+                    fixBidi(room.lockedMessage || "🔒 هذا الروم مقفول حالياً وسيفتح في موعده المحدد.") +
                     '</p>' +
                     '</div>';
                 document.getElementById('genericModal').style.display = 'flex';
@@ -887,9 +923,9 @@
                         '<div class="room4-part-card' + (partUnlocked ? '' : ' locked-part') + '">' +
                         '<div class="room4-part-header">' +
                         '<span class="room4-part-title">' + part.title + '</span>' +
-                        '<span class="room4-part-time">⏰ ' + part.time + '</span>' +
+                        '<span class="room4-part-time">⏰ ' + fixBidi(part.time) + '</span>' +
                         '</div>' +
-                        '<div class="room4-part-text">' + displayedText + '</div>' +
+                        '<div class="room4-part-text">' + fixBidi(displayedText) + '</div>' +
                         '</div>';
                 });
                 partsHtml += '</div>';
