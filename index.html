@@ -69,17 +69,22 @@
             box-shadow: 0 0 12px rgba(255, 51, 133, 0.25);
         }
 
-        body.dark-mode .room4-part-time,
-        body.dark-mode .cover-schedule-bar {
+        body.dark-mode .room4-part-time {
             background: rgba(255, 102, 163, 0.16);
             color: #ff99c2;
             border-color: #ff66a3;
         }
 
+        body.dark-mode .cover-schedule-bar {
+            background: #240b29;
+            color: #ffe6f2;
+            border-top: 1.5px solid #ff4d94;
+        }
+
         body.dark-mode .room-card.locked-room {
             background: #140717;
             border-color: #7a2448 !important;
-            opacity: 0.92;
+            opacity: 0.95;
         }
 
         body.dark-mode .room4-part-card.locked-part {
@@ -280,7 +285,7 @@
         .room-card.locked-room {
             background: #f8e8ee;
             border-color: #d48ba8;
-            opacity: 0.92;
+            opacity: 0.95;
         }
 
         .room-card-content {
@@ -340,22 +345,25 @@
             pointer-events: none;
         }
 
+        /* شريط واضح وتقيل فوق الصورة */
         .cover-schedule-bar {
-            background: rgba(255, 240, 246, 0.92);
-            color: #c2185b;
-            border-top: 1px solid #ffb6c1;
-            padding: 4px 6px;
-            font-size: 9.5px;
+            background: #3b0d26;
+            color: #ffffff;
+            border-top: 1.5px solid #ff85a2;
+            padding: 5px 6px;
+            font-size: 10px;
             font-weight: 700;
             line-height: 1.35;
             text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
         }
 
         .cover-countdown-text {
             display: block;
-            font-size: 9px;
-            opacity: 0.9;
-            margin-top: 1px;
+            font-size: 9.5px;
+            font-weight: 700;
+            color: #ffd1e6;
+            margin-top: 2px;
         }
 
         @keyframes shakeLock {
@@ -515,19 +523,20 @@
         }
 
         .part-cover-footer {
-            background: rgba(255, 240, 246, 0.96);
-            color: #c2185b;
+            background: #3b0d26;
+            color: #ffffff;
             padding: 8px 10px;
             font-size: 11.5px;
             font-weight: 700;
             text-align: center;
-            border-top: 1px solid #ffb6c1;
+            border-top: 1.5px solid #ff85a2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
         }
 
         body.dark-mode .part-cover-footer {
-            background: #230d28;
-            color: #ff99c2;
-            border-color: #ff3385;
+            background: #240b29;
+            color: #ffe6f2;
+            border-color: #ff4d94;
         }
 
         .room4-part-header {
@@ -916,7 +925,6 @@
             room4Part3: new Date(2027, 0, 1, 0, 0, 0)
         };
 
-        // تتبع حالة إزالة غلاف الروم (الدوسة الأولى تشيل الغلاف، الدوسة التانية تفتح الروم)
         const roomCoverDismissed = {
             room1: false,
             room2: false,
@@ -924,7 +932,6 @@
             room4: false
         };
 
-        // تتبع الأجزاء المفتوحة غلافها داخل الروم الرابع (دوسة واحدة تشيل الغلاف)
         const partCoverDismissed = {};
 
         function fixBidi(s) {
@@ -949,10 +956,10 @@
 
         function refreshRoomLocksUI() {
             const roomSchedules = {
-                room1: { openText: "مفتوح الآن 🩷", lockedLabel: "" },
-                room2: { openText: "دوسة تكشف الروم 🩷", lockedLabel: "🔒 يفتح 2026/12/01", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/01" },
-                room3: { openText: "دوسة تكشف الروم 🩷", lockedLabel: "🔒 يفتح 2026/12/15", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/15" },
-                room4: { openText: "دوسة تكشف الروم 🩷", lockedLabel: "🔒 يفتح 2026/12/31", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/31" }
+                room1: { openText: "دوسة واحدة تفتح الغلاف 🩷", badgeOpen: "مفتوح الآن 🩷" },
+                room2: { openText: "🔓 دوسة واحدة تفتح الغلاف", lockedLabel: "🔒 يفتح 2026/12/01", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/01" },
+                room3: { openText: "🔓 دوسة واحدة تفتح الغلاف", lockedLabel: "🔒 يفتح 2026/12/15", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/15" },
+                room4: { openText: "🔓 دوسة واحدة تفتح الغلاف", lockedLabel: "🔒 يفتح 2026/12/31", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/31" }
             };
 
             ['room1', 'room2', 'room3', 'room4'].forEach(id => {
@@ -960,7 +967,6 @@
                 const cover = document.getElementById('cover-' + id);
                 const badge = document.getElementById('badge-' + id);
                 const scheduleBar = document.getElementById('schedule-' + id);
-                const countdownEl = document.getElementById('countdown-' + id);
                 const unlocked = isUnlocked(unlockTimes[id]);
 
                 if (card) {
@@ -996,19 +1002,34 @@
                         const cd = formatRemainingCountdown(unlockTimes[id]);
                         scheduleBar.innerHTML =
                             fixBidi(roomSchedules[id].lockedLabel) +
-                            '<span class="cover-countdown-text" id="countdown-' + id + '">' + cd + '</span>';
+                            '<span class="cover-countdown-text">' + cd + '</span>';
                     }
-                } else if (countdownEl && !unlocked) {
-                    countdownEl.innerText = formatRemainingCountdown(unlockTimes[id]);
                 }
             });
 
-            // تحديث عداد الأجزاء التلاتة لو الروم الرابع مفتوح
-            ['part0', 'part1', 'part2'].forEach((pKey, idx) => {
-                const cdSpan = document.getElementById('part-countdown-' + idx);
-                if (cdSpan && roomData.room4.parts[idx]) {
-                    const pDate = roomData.room4.parts[idx].unlockDate;
-                    cdSpan.innerText = isUnlocked(pDate) ? "" : formatRemainingCountdown(pDate);
+            // تحديث حالة وعداد الأجزاء التلاتة لحظياً داخل الروم الرابع
+            [0, 1, 2].forEach(idx => {
+                const part = roomData.room4 && roomData.room4.parts ? roomData.room4.parts[idx] : null;
+                const cardEl = document.getElementById('room4-part-card-' + idx);
+                const footerEl = document.getElementById('part-cover-footer-' + idx);
+                if (!part || !footerEl) return;
+
+                const partUnlocked = isUnlocked(part.unlockDate);
+                if (cardEl) {
+                    if (partUnlocked) {
+                        cardEl.classList.remove('locked-part');
+                    } else {
+                        cardEl.classList.add('locked-part');
+                    }
+                }
+
+                if (partUnlocked) {
+                    footerEl.innerHTML = '🔓 دوسة واحدة تفتح الرسالة';
+                } else {
+                    const cdText = formatRemainingCountdown(part.unlockDate);
+                    footerEl.innerHTML =
+                        '🔒 ' + fixBidi(part.time) +
+                        '<span class="cover-countdown-text">' + cdText + '</span>';
                 }
             });
         }
@@ -1017,7 +1038,6 @@
             const unlocked = isUnlocked(unlockTimes[roomId]);
             const card = document.getElementById('card-' + roomId);
 
-            // لو مقفول ولسه وقته مجاش: الصورة تفضل ثابتة وتهتز خفيف
             if (!unlocked) {
                 if (card) {
                     card.classList.remove('shake-anim');
@@ -1027,14 +1047,12 @@
                 return;
             }
 
-            // الدوسة الأولى: إزالة الغلاف بموشن وإظهار عنوان وكلام الروم من بره
             if (!roomCoverDismissed[roomId]) {
                 roomCoverDismissed[roomId] = true;
                 refreshRoomLocksUI();
                 return;
             }
 
-            // الدوسة التانية: فتح الروم نفسه
             openRoom(roomId);
         }
 
@@ -1125,7 +1143,6 @@ I'm so happy we get to start the new year together🫂🩷`
 
             if (!part) return;
 
-            // لو مقفول ولسه وقته مجاش: ثابت ويهتز خفيف
             if (!isUnlocked(part.unlockDate)) {
                 if (cardEl) {
                     cardEl.classList.remove('shake-anim');
@@ -1135,7 +1152,6 @@ I'm so happy we get to start the new year together🫂🩷`
                 return;
             }
 
-            // دوسة واحدة بعد ميعاده تشيل الغلاف بموشن وتظهر العنوان والرسالة
             partCoverDismissed[partIdx] = true;
             if (coverEl) coverEl.classList.add('dismissed');
             if (cardEl) cardEl.classList.remove('has-part-cover');
@@ -1201,10 +1217,10 @@ I'm so happy we get to start the new year together🫂🩷`
                         '" id="room4-part-card-' + idx + '">' +
                         '<div class="part-cover-box' + (isDismissed ? ' dismissed' : '') + '" id="room4-part-cover-' + idx + '" onclick="handlePartCoverClick(' + idx + ')">' +
                         '<img class="part-cover-img" src="' + part.coverImg + '" alt="Part Cover">' +
-                        '<div class="part-cover-footer">' +
+                        '<div class="part-cover-footer" id="part-cover-footer-' + idx + '">' +
                         (partUnlocked
-                            ? ('🔓 ' + fixBidi(part.time) + ' — دوسة واحدة تفتح الرسالة')
-                            : ('🔒 ' + fixBidi(part.time) + ' <span class="cover-countdown-text" id="part-countdown-' + idx + '">' + cdText + '</span>')) +
+                            ? '🔓 دوسة واحدة تفتح الرسالة'
+                            : ('🔒 ' + fixBidi(part.time) + '<span class="cover-countdown-text">' + cdText + '</span>')) +
                         '</div>' +
                         '</div>' +
                         '<div class="part-revealed-content" id="room4-part-content-' + idx + '">' +
