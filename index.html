@@ -69,7 +69,8 @@
             box-shadow: 0 0 12px rgba(255, 51, 133, 0.25);
         }
 
-        body.dark-mode .room4-part-time {
+        body.dark-mode .room4-part-time,
+        body.dark-mode .cover-schedule-bar {
             background: rgba(255, 102, 163, 0.16);
             color: #ff99c2;
             border-color: #ff66a3;
@@ -78,7 +79,7 @@
         body.dark-mode .room-card.locked-room {
             background: #140717;
             border-color: #7a2448 !important;
-            opacity: 0.85;
+            opacity: 0.92;
         }
 
         body.dark-mode .room4-part-card.locked-part {
@@ -259,6 +260,7 @@
             margin-top: 10px;
         }
 
+        /* كارت الروم ونظام الغلاف والموشن */
         .room-card {
             background: white;
             border: 2px dashed #ff85a2;
@@ -266,25 +268,44 @@
             padding: 12px;
             text-align: center;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            min-height: 125px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .room-card.locked-room {
             background: #f8e8ee;
             border-color: #d48ba8;
-            opacity: 0.88;
+            opacity: 0.92;
+        }
+
+        .room-card-content {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            width: 100%;
+        }
+
+        .room-card.has-cover .room-card-content {
+            opacity: 0;
+            transform: scale(0.92);
+            pointer-events: none;
         }
 
         .room-card h4 {
             color: #d63384;
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 4px;
+            line-height: 1.4;
         }
 
         .room-card small {
             font-size: 10px;
             color: #777;
             display: block;
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .room-lock-badge {
@@ -296,6 +317,55 @@
             font-weight: bold;
             background: rgba(214, 51, 132, 0.14);
             color: #c2185b;
+        }
+
+        /* طبقة الصورة المغطية لمربع الروم */
+        .room-cover-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .room-cover-overlay.dismissed {
+            opacity: 0;
+            transform: scale(1.12);
+            pointer-events: none;
+        }
+
+        .cover-schedule-bar {
+            background: rgba(255, 240, 246, 0.92);
+            color: #c2185b;
+            border-top: 1px solid #ffb6c1;
+            padding: 4px 6px;
+            font-size: 9.5px;
+            font-weight: 700;
+            line-height: 1.35;
+            text-align: center;
+        }
+
+        .cover-countdown-text {
+            display: block;
+            font-size: 9px;
+            opacity: 0.9;
+            margin-top: 1px;
+        }
+
+        @keyframes shakeLock {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake-anim {
+            animation: shakeLock 0.32s ease;
         }
 
         .playlist-controls {
@@ -382,11 +452,11 @@
             opacity: 0.85;
         }
 
-        /* تنسيق أجزاء الروم الرابع */
+        /* تنسيق أجزاء الروم الرابع وصور الغلاف */
         .room4-parts-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             margin-top: 16px;
         }
 
@@ -396,11 +466,68 @@
             border-radius: 16px;
             padding: 14px;
             text-align: right;
+            position: relative;
+            overflow: hidden;
+            min-height: 155px;
         }
 
         .room4-part-card.locked-part {
             background: #f9ebf0;
             border-color: #d48ba8;
+        }
+
+        .part-revealed-content {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .room4-part-card.has-part-cover .part-revealed-content {
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+            height: 0;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .part-cover-box {
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1.5px solid #ffb6c1;
+            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .part-cover-box.dismissed {
+            opacity: 0;
+            transform: scale(1.06);
+            pointer-events: none;
+            height: 0;
+            border: none;
+        }
+
+        .part-cover-img {
+            width: 100%;
+            height: 135px;
+            object-fit: cover;
+            display: block;
+            margin-top: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        .part-cover-footer {
+            background: rgba(255, 240, 246, 0.96);
+            color: #c2185b;
+            padding: 8px 10px;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-align: center;
+            border-top: 1px solid #ffb6c1;
+        }
+
+        body.dark-mode .part-cover-footer {
+            background: #230d28;
+            color: #ff99c2;
+            border-color: #ff3385;
         }
 
         .room4-part-header {
@@ -563,26 +690,58 @@
         <div class="rooms-card">
             <div class="timer-title">كل ما تفتحي حكاية.. تلاقيني بحبك بطريقة جديدة 🩷✨</div>
             <div class="rooms-grid">
-                <div class="room-card" id="card-room1" onclick="openRoom('room1')">
-                    <h4>ليكي انتِ.. بصوتي من قلبي ل قلبك🩷🫂</h4>
-                    <small>بنكتب حكايتنا سوا من كل قلبنا🩷✨</small>
-                    <span class="room-lock-badge" id="badge-room1">مفتوح الآن 🩷</span>
+                <div class="room-card has-cover" id="card-room1" onclick="handleRoomCardClick('room1')">
+                    <div class="room-cover-overlay" id="cover-room1" style="background-image: url('cover-room1.jpg');">
+                        <div class="cover-schedule-bar">دوسة واحدة تفتح الغلاف 🩷</div>
+                    </div>
+                    <div class="room-card-content">
+                        <h4>ليكي انتِ.. بصوتي من قلبي ل قلبك🩷🫂</h4>
+                        <small>بنكتب حكايتنا سوا من كل قلبنا🩷✨</small>
+                        <span class="room-lock-badge" id="badge-room1">مفتوح الآن 🩷</span>
+                    </div>
                 </div>
-                <div class="room-card" id="card-room2" onclick="openRoom('room2')">
-                    <h4>اول فيلم اتفرجنا عليه سوا🩷✨</h4>
-                    <small>ولنا في الخيال.. حب🩷✨</small>
-                    <span class="room-lock-badge" id="badge-room2">يفتح 2026/12/01</span>
+
+                <div class="room-card has-cover" id="card-room2" onclick="handleRoomCardClick('room2')">
+                    <div class="room-cover-overlay" id="cover-room2" style="background-image: url('cover-room2.jpg');">
+                        <div class="cover-schedule-bar" id="schedule-room2">
+                            🔒 يفتح 2026/12/01
+                            <span class="cover-countdown-text" id="countdown-room2"></span>
+                        </div>
+                    </div>
+                    <div class="room-card-content">
+                        <h4>اول فيلم اتفرجنا عليه سوا🩷✨</h4>
+                        <small>ولنا في الخيال.. حب🩷✨</small>
+                        <span class="room-lock-badge" id="badge-room2">يفتح 2026/12/01</span>
+                    </div>
                 </div>
-                <div class="room-card" id="card-room3" onclick="openRoom('room3')">
-                    <h4>بين صوتي و صوتك احساس و حكايه بتكبر بينا🫂🩷</h4>
-                    <small>مكالمتنا مش مجرد كلام
+
+                <div class="room-card has-cover" id="card-room3" onclick="handleRoomCardClick('room3')">
+                    <div class="room-cover-overlay" id="cover-room3" style="background-image: url('cover-room3.jpg');">
+                        <div class="cover-schedule-bar" id="schedule-room3">
+                            🔒 يفتح 2026/12/15
+                            <span class="cover-countdown-text" id="countdown-room3"></span>
+                        </div>
+                    </div>
+                    <div class="room-card-content">
+                        <h4>بين صوتي و صوتك احساس و حكايه بتكبر بينا🫂🩷</h4>
+                        <small>مكالمتنا مش مجرد كلام
 ده احساس و فهم بيكبر بينا كل يوم🩷✨</small>
-                    <span class="room-lock-badge" id="badge-room3">يفتح 2026/12/15</span>
+                        <span class="room-lock-badge" id="badge-room3">يفتح 2026/12/15</span>
+                    </div>
                 </div>
-                <div class="room-card" id="card-room4" onclick="openRoom('room4')">
-                    <h4>انا جنبك النهاردة وكل يوم🩷✨</h4>
-                    <small>3 رسايل ليكي.. كل واحدة هتفتح ف وقتها🩷✨</small>
-                    <span class="room-lock-badge" id="badge-room4">يفتح 2026/12/31</span>
+
+                <div class="room-card has-cover" id="card-room4" onclick="handleRoomCardClick('room4')">
+                    <div class="room-cover-overlay" id="cover-room4" style="background-image: url('cover-room4.jpg');">
+                        <div class="cover-schedule-bar" id="schedule-room4">
+                            🔒 يفتح 2026/12/31
+                            <span class="cover-countdown-text" id="countdown-room4"></span>
+                        </div>
+                    </div>
+                    <div class="room-card-content">
+                        <h4>انا جنبك النهاردة وكل يوم🩷✨</h4>
+                        <small>3 رسايل ليكي.. كل واحدة هتفتح ف وقتها🩷✨</small>
+                        <span class="room-lock-badge" id="badge-room4">يفتح 2026/12/31</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -697,7 +856,6 @@
             songTitleDisplay.innerText = playlist[currentSongIndex].title;
         }
 
-        // زر التشغيل بيتغير بس لما الصوت يشتغل فعلاً، ولو التشغيل فشل بيفضل "Play"
         function playAndUpdateBtn() {
             audio.play().then(function() {
                 musicBtn.innerText = "stop🩷";
@@ -706,7 +864,6 @@
             });
         }
 
-        // أي وقفة للصوت (بالزر أو بقفل الروم أو بانتهاء الأغنية) ترجّع الزر لوضعه الصح
         audio.addEventListener('pause', function() {
             musicBtn.innerText = "Play 🩷";
         });
@@ -759,7 +916,17 @@
             room4Part3: new Date(2027, 0, 1, 0, 0, 0)
         };
 
-        // تثبيت اتجاه التاريخ والوقت من الشمال لليمين وسط الكلام العربي
+        // تتبع حالة إزالة غلاف الروم (الدوسة الأولى تشيل الغلاف، الدوسة التانية تفتح الروم)
+        const roomCoverDismissed = {
+            room1: false,
+            room2: false,
+            room3: false,
+            room4: false
+        };
+
+        // تتبع الأجزاء المفتوحة غلافها داخل الروم الرابع (دوسة واحدة تشيل الغلاف)
+        const partCoverDismissed = {};
+
         function fixBidi(s) {
             return String(s).replace(/(\d{4}\/\d{1,2}\/\d{1,2}(?:\s+\d{1,2}:\d{2}\s*[AP]M)?|\d{1,2}:\d{2}\s*[AP]M)/g, '<bdi dir="ltr">$1</bdi>');
         }
@@ -769,28 +936,106 @@
             return new Date() >= unlockDate;
         }
 
+        function formatRemainingCountdown(targetDate) {
+            const diff = targetDate - new Date();
+            if (diff <= 0) return "";
+            const totalSec = Math.floor(diff / 1000);
+            const days = Math.floor(totalSec / (3600 * 24));
+            const hours = Math.floor((totalSec % (3600 * 24)) / 3600);
+            const minutes = Math.floor((totalSec % 3600) / 60);
+            const seconds = totalSec % 60;
+            return "باقي: " + days + "ي " + hours + "س " + minutes + "د " + seconds + "ث";
+        }
+
         function refreshRoomLocksUI() {
-            const roomLabels = {
-                room1: { open: "مفتوح الآن 🩷", locked: "" },
-                room2: { open: "مفتوح الآن 🩷", locked: "🔒 يفتح 2026/12/01" },
-                room3: { open: "مفتوح الآن 🩷", locked: "🔒 يفتح 2026/12/15" },
-                room4: { open: "مفتوح الآن 🩷", locked: "🔒 يفتح 2026/12/31" }
+            const roomSchedules = {
+                room1: { openText: "مفتوح الآن 🩷", lockedLabel: "" },
+                room2: { openText: "دوسة تكشف الروم 🩷", lockedLabel: "🔒 يفتح 2026/12/01", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/01" },
+                room3: { openText: "دوسة تكشف الروم 🩷", lockedLabel: "🔒 يفتح 2026/12/15", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/15" },
+                room4: { openText: "دوسة تكشف الروم 🩷", lockedLabel: "🔒 يفتح 2026/12/31", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🔒 يفتح 2026/12/31" }
             };
 
             ['room1', 'room2', 'room3', 'room4'].forEach(id => {
                 const card = document.getElementById('card-' + id);
+                const cover = document.getElementById('cover-' + id);
                 const badge = document.getElementById('badge-' + id);
+                const scheduleBar = document.getElementById('schedule-' + id);
+                const countdownEl = document.getElementById('countdown-' + id);
                 const unlocked = isUnlocked(unlockTimes[id]);
-                if (card && badge) {
+
+                if (card) {
                     if (unlocked) {
                         card.classList.remove('locked-room');
-                        badge.innerText = roomLabels[id].open;
                     } else {
                         card.classList.add('locked-room');
-                        badge.innerText = roomLabels[id].locked;
+                    }
+
+                    if (roomCoverDismissed[id]) {
+                        card.classList.remove('has-cover');
+                    } else {
+                        card.classList.add('has-cover');
                     }
                 }
+
+                if (cover) {
+                    if (roomCoverDismissed[id]) {
+                        cover.classList.add('dismissed');
+                    } else {
+                        cover.classList.remove('dismissed');
+                    }
+                }
+
+                if (badge && id !== 'room1') {
+                    badge.innerText = unlocked ? roomSchedules[id].badgeOpen : roomSchedules[id].badgeLocked;
+                }
+
+                if (scheduleBar && id !== 'room1') {
+                    if (unlocked) {
+                        scheduleBar.innerHTML = roomSchedules[id].openText;
+                    } else {
+                        const cd = formatRemainingCountdown(unlockTimes[id]);
+                        scheduleBar.innerHTML =
+                            fixBidi(roomSchedules[id].lockedLabel) +
+                            '<span class="cover-countdown-text" id="countdown-' + id + '">' + cd + '</span>';
+                    }
+                } else if (countdownEl && !unlocked) {
+                    countdownEl.innerText = formatRemainingCountdown(unlockTimes[id]);
+                }
             });
+
+            // تحديث عداد الأجزاء التلاتة لو الروم الرابع مفتوح
+            ['part0', 'part1', 'part2'].forEach((pKey, idx) => {
+                const cdSpan = document.getElementById('part-countdown-' + idx);
+                if (cdSpan && roomData.room4.parts[idx]) {
+                    const pDate = roomData.room4.parts[idx].unlockDate;
+                    cdSpan.innerText = isUnlocked(pDate) ? "" : formatRemainingCountdown(pDate);
+                }
+            });
+        }
+
+        function handleRoomCardClick(roomId) {
+            const unlocked = isUnlocked(unlockTimes[roomId]);
+            const card = document.getElementById('card-' + roomId);
+
+            // لو مقفول ولسه وقته مجاش: الصورة تفضل ثابتة وتهتز خفيف
+            if (!unlocked) {
+                if (card) {
+                    card.classList.remove('shake-anim');
+                    void card.offsetWidth;
+                    card.classList.add('shake-anim');
+                }
+                return;
+            }
+
+            // الدوسة الأولى: إزالة الغلاف بموشن وإظهار عنوان وكلام الروم من بره
+            if (!roomCoverDismissed[roomId]) {
+                roomCoverDismissed[roomId] = true;
+                refreshRoomLocksUI();
+                return;
+            }
+
+            // الدوسة التانية: فتح الروم نفسه
+            openRoom(roomId);
         }
 
         // --- محتوى الرومات الأربعة ---
@@ -827,20 +1072,20 @@
 بحبك اوي🫂🩷`,
                 parts: [
                     {
+                        coverImg: "cover-part1.jpg",
                         title: "🩷 أنا هنا يا ميرو",
                         time: "يفتح: 2026/12/31 01:00 AM",
                         unlockDate: unlockTimes.room4Part1,
-                        lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2026/12/31 الساعة 01:00 AM 🩷",
                         text: `ميرو.... احلي شخص عرفته ف حياتي و مش مجرد شخص حبيته او اتقابلنا انا قبلت نسخه تانيه مني شخص كل تفصيله فيه و كل حاجه فيه نسخه تانيه مني  و بقا مش حبيبي و روحي بس لا بقيتي بنوتي بجد.. بحبك اوي🫂🩷
 احب اقولك واطمنك يا بنوتي اني معاكي و جمبك دايما يحبيبتي ف كل وقت و كل مكان و في كل حالاتك يعمري معاكي و جمبك و اهون عليكي اي حاجه صعبه يعمري سندك و ظهرك لاخر يوم فعمرنا يحبيبتي🩷🫂و بنوتي مش مجرد كلمه او احساس او شعور لا نتي بنتي و حته مني بجد من اقل تفصيله بينا و من اقل احساس باحسه معاكي ببقا مبسوط و فرحان اول ما اسمع ضحكتك وقت ما تبقي مدايقه او انا مدايق انا اللي بضحك من كل قلبي اني سامع ضحكتك و انك معايا يعمري🫂🩷كل تفصيله فيكي و كل حاجه بجد بتفرق معايا جدا و بحبها جدا مهما كانت بسيطه والله يبنوتي 🩷🫂
 بحبك اوي يحياتي🫂🩷
 ربنا يديمك ليا يبنوتي و يجمعنا سوا يروحي علي خير ان شاءلله`
                     },
                     {
+                        coverImg: "cover-part2.jpg",
                         title: "حاجات بينا لو طلعت برّه مش هنسلم من التريقة 😂🩷",
                         time: "يفتح: 2026/12/31 12:00 PM",
                         unlockDate: unlockTimes.room4Part2,
-                        lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2026/12/31 الساعة 12:00 PM 🩷",
                         text: `ميرووووو.... احب اقولك ان تفاصيل يومنا اللي بنعيشها سوا لو طلعت بره  هناخد شويه تريقه فلل😂😂🩷
 اولهم لما ارن عليكي ونتي نايمه يمرارييي😂
 بكلم بني ادمه تانيه خالص بس بعيد عن اكده صوتك بيبقا كوتي اول ما تصحي م النوم😂🩷🌚
@@ -852,10 +1097,10 @@
 بحبك اوووووووووي🌚🩷🩷🩷🩷🩷🩷✨`
                     },
                     {
+                        coverImg: "cover-part3.jpg",
                         title: "سنة جديدة وإنتي أولها🩷🫂",
                         time: "يفتح: 2027/01/01 12:00 AM",
                         unlockDate: unlockTimes.room4Part3,
-                        lockedText: "🔒 الجزء ده مقفول وهيفتح بتاريخ 2027/01/01 الساعة 12:00 AM 🩷",
                         text: `سنة جديدة.... وانتي اولها🩷🫂
 بدأنا 2027 سوا🩷✨
 بتمنا انها تكون سنة خير علينا يحبيبتي و ربنا يبعد عننا كل وحش و انها تكون سنه جميله عليكي يحبيبتي من حيث كل شئ فيها و هتبقا اجمل سنة ف حياتي أبدأها من اولها ونا معايا بنوتي حبيبتي🩷🫂🫂🫂
@@ -871,6 +1116,36 @@ I'm so happy we get to start the new year together🫂🩷`
                 ]
             }
         };
+
+        function handlePartCoverClick(partIdx) {
+            const part = roomData.room4.parts[partIdx];
+            const cardEl = document.getElementById('room4-part-card-' + partIdx);
+            const coverEl = document.getElementById('room4-part-cover-' + partIdx);
+            const contentEl = document.getElementById('room4-part-content-' + partIdx);
+
+            if (!part) return;
+
+            // لو مقفول ولسه وقته مجاش: ثابت ويهتز خفيف
+            if (!isUnlocked(part.unlockDate)) {
+                if (cardEl) {
+                    cardEl.classList.remove('shake-anim');
+                    void cardEl.offsetWidth;
+                    cardEl.classList.add('shake-anim');
+                }
+                return;
+            }
+
+            // دوسة واحدة بعد ميعاده تشيل الغلاف بموشن وتظهر العنوان والرسالة
+            partCoverDismissed[partIdx] = true;
+            if (coverEl) coverEl.classList.add('dismissed');
+            if (cardEl) cardEl.classList.remove('has-part-cover');
+            if (contentEl) {
+                contentEl.style.opacity = '1';
+                contentEl.style.transform = 'translateY(0)';
+                contentEl.style.height = 'auto';
+                contentEl.style.overflow = 'visible';
+            }
+        }
 
         function openRoom(roomId) {
             if (!audio.paused) {
@@ -913,19 +1188,32 @@ I'm so happy we get to start the new year together🫂🩷`
 
             if (room.parts && room.parts.length > 0) {
                 let partsHtml = '<div class="room4-parts-list">';
-                room.parts.forEach(part => {
+                room.parts.forEach((part, idx) => {
                     const partUnlocked = isUnlocked(part.unlockDate);
-                    const displayedText = partUnlocked
-                        ? part.text
-                        : (part.lockedText || ("🔒 يفتح في موعده: " + part.time));
+                    const isDismissed = !!partCoverDismissed[idx];
+                    const showCover = !isDismissed;
+                    const cdText = partUnlocked ? "" : formatRemainingCountdown(part.unlockDate);
 
                     partsHtml +=
-                        '<div class="room4-part-card' + (partUnlocked ? '' : ' locked-part') + '">' +
+                        '<div class="room4-part-card' +
+                        (partUnlocked ? '' : ' locked-part') +
+                        (showCover ? ' has-part-cover' : '') +
+                        '" id="room4-part-card-' + idx + '">' +
+                        '<div class="part-cover-box' + (isDismissed ? ' dismissed' : '') + '" id="room4-part-cover-' + idx + '" onclick="handlePartCoverClick(' + idx + ')">' +
+                        '<img class="part-cover-img" src="' + part.coverImg + '" alt="Part Cover">' +
+                        '<div class="part-cover-footer">' +
+                        (partUnlocked
+                            ? ('🔓 ' + fixBidi(part.time) + ' — دوسة واحدة تفتح الرسالة')
+                            : ('🔒 ' + fixBidi(part.time) + ' <span class="cover-countdown-text" id="part-countdown-' + idx + '">' + cdText + '</span>')) +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="part-revealed-content" id="room4-part-content-' + idx + '">' +
                         '<div class="room4-part-header">' +
                         '<span class="room4-part-title">' + part.title + '</span>' +
                         '<span class="room4-part-time">⏰ ' + fixBidi(part.time) + '</span>' +
                         '</div>' +
-                        '<div class="room4-part-text">' + fixBidi(displayedText) + '</div>' +
+                        '<div class="room4-part-text">' + fixBidi(part.text) + '</div>' +
+                        '</div>' +
                         '</div>';
                 });
                 partsHtml += '</div>';
