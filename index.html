@@ -721,7 +721,7 @@
                 <div class="room-card has-cover" id="card-room2" onclick="handleRoomCardClick('room2')">
                     <div class="room-cover-overlay" id="cover-room2" style="background-image: url('cover-room2.jpg');">
                         <div class="cover-schedule-bar" id="schedule-room2">
-                            🩷open in 2026/12/01🩷
+                            🩷2026/12/01 open in🩷
                             <span class="cover-countdown-text" id="countdown-room2"></span>
                         </div>
                     </div>
@@ -735,7 +735,7 @@
                 <div class="room-card has-cover" id="card-room3" onclick="handleRoomCardClick('room3')">
                     <div class="room-cover-overlay" id="cover-room3" style="background-image: url('cover-room3.jpg');">
                         <div class="cover-schedule-bar" id="schedule-room3">
-                            🩷open in 2026/12/15🩷
+                            🩷2026/12/15 open in🩷
                             <span class="cover-countdown-text" id="countdown-room3"></span>
                         </div>
                     </div>
@@ -750,7 +750,7 @@
                 <div class="room-card has-cover" id="card-room4" onclick="handleRoomCardClick('room4')">
                     <div class="room-cover-overlay" id="cover-room4" style="background-image: url('cover-room4.jpg');">
                         <div class="cover-schedule-bar" id="schedule-room4">
-                            🩷open in 2026/12/31🩷
+                            🩷2026/12/31 open in🩷
                             <span class="cover-countdown-text" id="countdown-room4"></span>
                         </div>
                     </div>
@@ -821,6 +821,7 @@
             if (passInput === "A♡R") {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
+                syncTrustedTime();
                 startTimer();
                 loadSong();
                 refreshRoomLocksUI();
@@ -916,13 +917,49 @@
             return String(s).replace(/(\d{4}\/\d{1,2}\/\d{1,2}(?:\s+\d{1,2}:\d{2}\s*[AP]M)?|\d{1,2}:\d{2}\s*[AP]M)/g, '<bdi dir="ltr">$1</bdi>');
         }
 
+        // --- الوقت الموثوق: بنسأل النت عن توقيت القاهرة الحقيقي ---
+        // ساعة الجهاز لوحدها مش دليل فتح؛ ولو مفيش نت الرومات المقفولة تستنى (قرار صاحب الموقع)
+        const trusted = { wallMs: null, perfAtFetch: 0 };
+
+        async function syncTrustedTime() {
+            try {
+                const r = await fetch('https://timeapi.io/api/time/current/zone?timeZone=Africa%2FCairo', { cache: 'no-store' });
+                if (!r.ok) throw new Error('time http ' + r.status);
+                const j = await r.json();
+                trusted.wallMs = Date.UTC(j.year, j.month - 1, j.day, j.hour, j.minute, j.seconds, j.milliSeconds || 0);
+                trusted.perfAtFetch = performance.now();
+            } catch (e) {
+                // فضل غير متأكد من الوقت: الرومات المقفولة تفضل مقفولة لحد ما النت يرجع
+            }
+            refreshRoomLocksUI();
+        }
+
+        // وقت القاهرة بالمللي ثانية كـ"ساعة حيطة" مستقل عن منطقة الجهاز وعن تغيير ساعته بعد الجلب
+        function trustedNowWallMs() {
+            if (trusted.wallMs === null) return null;
+            return trusted.wallMs + (performance.now() - trusted.perfAtFetch);
+        }
+
+        function unlockWallMsOf(d) {
+            return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
+        }
+
+        function wallMsToLocalDate(w) {
+            const u = new Date(w);
+            return new Date(u.getUTCFullYear(), u.getUTCMonth(), u.getUTCDate(), u.getUTCHours(), u.getUTCMinutes(), u.getUTCSeconds());
+        }
+
         function isUnlocked(unlockDate) {
             if (!unlockDate) return true;
-            return new Date() >= unlockDate;
+            const wall = trustedNowWallMs();
+            if (wall === null) return false;
+            return wall >= unlockWallMsOf(unlockDate);
         }
 
         function formatRemainingCountdown(targetDate) {
-            const diff = targetDate - new Date();
+            const wall = trustedNowWallMs();
+            if (wall === null) return "مستنيين النت يتأكد من الوقت 🩷";
+            const diff = unlockWallMsOf(targetDate) - wall;
             if (diff <= 0) return "";
             const totalSec = Math.floor(diff / 1000);
             const days = Math.floor(totalSec / (3600 * 24));
@@ -935,9 +972,9 @@
         function refreshRoomLocksUI() {
             const roomSchedules = {
                 room1: { openText: "🩷open🩷", badgeOpen: "مفتوح الآن 🩷" },
-                room2: { openText: "🩷open🩷", lockedLabel: "🩷open in 2026/12/01🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/01🩷" },
-                room3: { openText: "🩷open🩷", lockedLabel: "🩷open in 2026/12/15🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/15🩷" },
-                room4: { openText: "🩷open🩷", lockedLabel: "🩷open in 2026/12/31🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷open in 2026/12/31🩷" }
+                room2: { openText: "🩷open🩷", lockedLabel: "🩷2026/12/01 open in🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷2026/12/01 open in🩷" },
+                room3: { openText: "🩷open🩷", lockedLabel: "🩷2026/12/15 open in🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷2026/12/15 open in🩷" },
+                room4: { openText: "🩷open🩷", lockedLabel: "🩷2026/12/31 open in🩷", badgeOpen: "مفتوح الآن 🩷", badgeLocked: "🩷2026/12/31 open in🩷" }
             };
 
             ['room1', 'room2', 'room3', 'room4'].forEach(id => {
@@ -1231,7 +1268,8 @@ I'm so happy we get to start the new year together🫂🩷`
         const startDate = new Date('2026-09-16T00:00:00');
 
         function updateTimer() {
-            const now = new Date();
+            const wall = trustedNowWallMs();
+            const now = wall !== null ? wallMsToLocalDate(wall) : new Date();
             let diff = now - startDate;
             if (diff < 0) diff = 0;
 
@@ -1268,6 +1306,9 @@ I'm so happy we get to start the new year together🫂🩷`
                 updateTimer();
                 refreshRoomLocksUI();
             }, 1000);
+            // لو الوقت الموثوق لسه مجاش، نحاول كل ٣٠ ثانية ولما النت يرجع
+            setInterval(() => { if (trusted.wallMs === null) syncTrustedTime(); }, 30000);
+            window.addEventListener('online', syncTrustedTime);
         }
 
         function createHearts() {
