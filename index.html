@@ -11,7 +11,6 @@
             font-family: 'Tajawal', sans-serif;
             margin: 0;
             padding: 0;
-            transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
         body {
@@ -23,32 +22,32 @@
             align-items: center;
             overflow-x: hidden;
             position: relative;
+            transition: background 0.35s ease, color 0.35s ease;
         }
 
-        /* الوضع الليلي */
         body.dark-mode {
             background: linear-gradient(135deg, #0d050e, #1a091a);
             color: #ffb6c1;
         }
 
         body.dark-mode .container {
-            background: rgba(18, 8, 20, 0.95);
+            background: rgba(18, 8, 20, 0.96);
             border-color: #ff2a75;
             box-shadow: 0 0 25px rgba(255, 42, 117, 0.4);
         }
 
-        body.dark-mode h1, 
-        body.dark-mode h2, 
-        body.dark-mode .song-title, 
-        body.dark-mode .photo-caption, 
-        body.dark-mode .timer-title, 
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode .song-title,
+        body.dark-mode .photo-caption,
+        body.dark-mode .timer-title,
         body.dark-mode .modal-content h3 {
             color: #ff66a3 !important;
         }
 
-        body.dark-mode .photo-card, 
-        body.dark-mode .music-card, 
-        body.dark-mode .modal-content, 
+        body.dark-mode .photo-card,
+        body.dark-mode .music-card,
+        body.dark-mode .modal-content,
         body.dark-mode .timer-box,
         body.dark-mode .room-card,
         body.dark-mode .popup-photo-card,
@@ -67,12 +66,6 @@
             border-color: #ff66a3;
             color: #ff99c2;
             box-shadow: 0 0 12px rgba(255, 51, 133, 0.25);
-        }
-
-        body.dark-mode .room4-part-time {
-            background: rgba(255, 102, 163, 0.16);
-            color: #ff99c2;
-            border-color: #ff66a3;
         }
 
         body.dark-mode .cover-schedule-bar {
@@ -107,7 +100,7 @@
             top: 15px;
             left: 15px;
             z-index: 99;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             color: #d63384;
             border: 2px solid #ffb6c1;
             padding: 6px 12px;
@@ -132,6 +125,7 @@
             opacity: 0.6;
             animation: fall 5s linear infinite;
             z-index: 0;
+            pointer-events: none;
         }
 
         @keyframes fall {
@@ -141,7 +135,7 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(8px);
             padding: 25px;
             border-radius: 25px;
@@ -204,7 +198,7 @@
             color: #f3a6c2;
         }
 
-        .timer-card, .rooms-card, .music-card, .gallery-card {
+        .timer-card, .rooms-card, .music-card, .gallery-btn-card {
             background: #fff0f3;
             padding: 15px;
             border-radius: 18px;
@@ -212,9 +206,9 @@
             margin-bottom: 20px;
         }
 
-        body.dark-mode .timer-card, 
-        body.dark-mode .rooms-card, 
-        body.dark-mode .music-card, 
+        body.dark-mode .timer-card,
+        body.dark-mode .rooms-card,
+        body.dark-mode .music-card,
         body.dark-mode .gallery-btn-card {
             background: #190a1c;
             border-color: #ff3385;
@@ -265,7 +259,6 @@
             margin-top: 10px;
         }
 
-        /* كارت الروم ونظام الغلاف والموشن */
         .room-card {
             background: white;
             border: 2px dashed #ff85a2;
@@ -289,7 +282,7 @@
         }
 
         .room-card-content {
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transition: opacity 0.35s ease, transform 0.35s ease;
             width: 100%;
         }
 
@@ -324,7 +317,6 @@
             color: #c2185b;
         }
 
-        /* طبقة الصورة المغطية لمربع الروم */
         .room-cover-overlay {
             position: absolute;
             inset: 0;
@@ -337,16 +329,15 @@
             background-color: #4a1532;
             background-size: cover;
             background-position: center;
-            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
         .room-cover-overlay.dismissed {
             opacity: 0;
-            transform: scale(1.12);
+            transform: scale(1.1);
             pointer-events: none;
         }
 
-        /* شريط واضح وتقيل فوق الصورة */
         .cover-schedule-bar {
             background: #3b0d26;
             color: #ffffff;
@@ -389,15 +380,6 @@
             font-size: 14px;
         }
 
-        .gallery-btn-card {
-            background: #fff0f3;
-            padding: 15px;
-            border-radius: 18px;
-            border: 1px dashed #ff85a2;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
         .gallery-trigger-btn {
             background: linear-gradient(45deg, #ff6b81, #ff85a2);
             color: white;
@@ -424,7 +406,7 @@
 
         .modal-content {
             background: #fff9fa;
-            padding: 25px;
+            padding: 0 22px 22px 22px;
             border-radius: 20px;
             border: 3px solid #ff85a2;
             width: 100%;
@@ -433,6 +415,48 @@
             overflow-y: auto;
             text-align: right;
             position: relative;
+        }
+
+        .modal-sticky-bar {
+            position: sticky;
+            top: 0;
+            background: #fff9fa;
+            padding: 14px 0 10px 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 133, 162, 0.35);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            z-index: 30;
+        }
+
+        body.dark-mode .modal-sticky-bar {
+            background: #190a1c;
+            border-bottom-color: rgba(255, 51, 133, 0.35);
+        }
+
+        .close-btn {
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            color: #ffffff;
+            background: #d63384;
+            border: 2px solid #ffb6c1;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .close-btn {
+            background: #ff2a75;
+            border-color: #ff99c2;
         }
 
         .movie-date-badge {
@@ -461,7 +485,6 @@
             opacity: 0.85;
         }
 
-        /* تنسيق أجزاء الروم الرابع وصور الغلاف */
         .room4-parts-list {
             display: flex;
             flex-direction: column;
@@ -486,16 +509,11 @@
         }
 
         .part-revealed-content {
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transition: opacity 0.35s ease, transform 0.35s ease;
         }
 
         .room4-part-card.has-part-cover .part-revealed-content {
-            opacity: 0;
-            transform: translateY(8px);
-            pointer-events: none;
-            height: 0;
-            overflow: hidden;
-            margin: 0;
+            display: none;
         }
 
         .part-cover-box {
@@ -510,7 +528,6 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .part-cover-box.dismissed {
@@ -568,18 +585,10 @@
             line-height: 1.2;
         }
 
-        .part-close-btn:hover {
-            background: rgba(255, 107, 129, 0.28);
-        }
-
         body.dark-mode .part-close-btn {
             background: rgba(255, 102, 163, 0.18);
             color: #ff99c2;
             border-color: #ff66a3;
-        }
-
-        .room4-part-time {
-            display: none;
         }
 
         .room4-part-text {
@@ -634,39 +643,11 @@
             outline: none;
         }
 
-        /* تثبيت علامة الإكس أعلى النافذة أثناء التمرير */
-        .close-btn {
-            position: sticky;
-            top: -5px;
-            float: left;
-            font-size: 24px;
-            line-height: 1;
-            cursor: pointer;
-            color: #ffffff;
-            background: #d63384;
-            border: 2px solid #ffb6c1;
-            border-radius: 50%;
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            z-index: 30;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
-        }
-
-        body.dark-mode .close-btn {
-            background: #ff2a75;
-            color: #ffffff;
-            border-color: #ff99c2;
-        }
-
         .popup-gallery-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .popup-photo-card {
@@ -695,9 +676,8 @@
 </head>
 <body>
 
-    <!-- شاشة الباسورد -->
     <div class="container" id="login-screen">
-        <button class="theme-toggle-btn" onclick="toggleDarkMode()" id="themeBtn">🌙 Dark</button>
+        <button class="theme-toggle-btn" type="button" onclick="toggleDarkMode()" id="themeBtn">🌙 Dark</button>
         <h2>🩷BaNotY🩷</h2>
         <p style="margin-bottom: 15px; color: #777;">Enter the password 🩷✨</p>
         <input type="password" id="pass-input" placeholder="Password">
@@ -706,11 +686,10 @@
         <p id="error-msg" style="color: red; margin-top: 10px; display: none;">اكتبِ الباسورد صح يروحي 🌚🩷</p>
     </div>
 
-    <!-- المحتوى الرئيسي -->
     <div class="container" id="main-content">
-        <button class="theme-toggle-btn" onclick="toggleDarkMode()" id="themeBtn2">🌙 Dark</button>
-        <h1>   🩷2026/09/16🩷   </h1>
-        
+        <button class="theme-toggle-btn" type="button" onclick="toggleDarkMode()" id="themeBtn2">🌙 Dark</button>
+        <h1>🩷2026/09/16🩷</h1>
+
         <div class="timer-card">
             <div class="timer-title">🩷✨بقالنا مع بعض 🩷✨</div>
             <div class="timer-grid">
@@ -725,7 +704,6 @@
 
         <p class="caption">عملتلك المكان اللطيف ده عشان أقولك قد إيه انتِ شخص غالي جداً عندي بحبك اوي✨ 💕</p>
 
-        <!-- الرومات الأربعة -->
         <div class="rooms-card">
             <div class="timer-title">كل ما تفتحي حكاية.. تلاقيني بحبك بطريقة جديدة 🩷✨</div>
             <div class="rooms-grid">
@@ -789,75 +767,46 @@
             <div class="song-title" id="song-title-display">Music Playlist 🎶</div>
             <audio id="playlistAudio"></audio>
             <div class="playlist-controls">
-                <button onclick="prevSong()">previous</button>
-                <button onclick="toggleMusic()" id="musicBtn">Play 🩷</button>
-                <button onclick="nextSong()">next</button>
+                <button type="button" onclick="prevSong()">previous</button>
+                <button type="button" onclick="toggleMusic()" id="musicBtn">Play 🩷</button>
+                <button type="button" onclick="nextSong()">next</button>
             </div>
         </div>
 
-        <!-- زرار ألبوم الصور الجديد بالإيموجي -->
         <div class="gallery-btn-card">
-            <button class="gallery-trigger-btn" onclick="openGalleryModal()">كل الصور بتتشاف بالعين.. إلا صورك بقلبي 🩷✨</button>
+            <button type="button" class="gallery-trigger-btn" onclick="openGalleryModal()">كل الصور بتتشاف بالعين.. إلا صورك بقلبي 🩷✨</button>
         </div>
 
         <button type="button" onclick="openNote()">Note 💌</button>
     </div>
 
-    <!-- نافذة الجاليري العائمة (Popup) - 10 صور -->
     <div class="modal" id="galleryModal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeGalleryModal()">&times;</span>
-            <h3 style="color: #d63384; margin-bottom: 10px; text-align: center;">🩷 صور بنوتي اللي واخدة قلبي كله ✨</h3>
+            <div class="modal-sticky-bar">
+                <h3 style="color: #d63384; text-align: center; flex: 1;">🩷 صور بنوتي اللي واخدة قلبي كله ✨</h3>
+                <span class="close-btn" onclick="closeGalleryModal()">&times;</span>
+            </div>
             <div class="popup-gallery-container">
-                <div class="popup-photo-card">
-                    <img src="photo1.jpg" alt="1">
-                    <div class="popup-photo-caption">قمري 🌚🩷</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo2.jpg" alt="2">
-                    <div class="popup-photo-caption">احلي ضحكه شوفتها في حياتي 🩷✨</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo3.jpg" alt="3">
-                    <div class="popup-photo-caption">ربنا يخليكي ليا دايماً ✨</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo4.jpg" alt="4">
-                    <div class="popup-photo-caption">الصغنن حجي 🌚🩷</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo5.jpg" alt="5">
-                    <div class="popup-photo-caption">احلي بنوته في الدنيا دي كلها 🩷✨</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo6.jpg" alt="6">
-                    <div class="popup-photo-caption">🩷🌚بحب ضحكتك اوي بجد🩷🫂</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo7.jpg" alt="7">
-                    <div class="popup-photo-caption">الضحكة اللي بتفرحني دايماً 🌚🩷</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo8.jpg" alt="8">
-                    <div class="popup-photo-caption">عيونك سحروني 🫠🩷✨</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo9.jpg" alt="9">
-                    <div class="popup-photo-caption">حبيبتي وروحي دايماً 🩷✨</div>
-                </div>
-                <div class="popup-photo-card">
-                    <img src="photo10.jpg" alt="10">
-                    <div class="popup-photo-caption">ادوب ف هذة الجمال🫠🩷</div>
-                </div>
+                <div class="popup-photo-card"><img src="photo1.jpg" alt="1"><div class="popup-photo-caption">قمري 🌚🩷</div></div>
+                <div class="popup-photo-card"><img src="photo2.jpg" alt="2"><div class="popup-photo-caption">احلي ضحكه شوفتها في حياتي 🩷✨</div></div>
+                <div class="popup-photo-card"><img src="photo3.jpg" alt="3"><div class="popup-photo-caption">ربنا يخليكي ليا دايماً ✨</div></div>
+                <div class="popup-photo-card"><img src="photo4.jpg" alt="4"><div class="popup-photo-caption">الصغنن حجي 🌚🩷</div></div>
+                <div class="popup-photo-card"><img src="photo5.jpg" alt="5"><div class="popup-photo-caption">احلي بنوته في الدنيا دي كلها 🩷✨</div></div>
+                <div class="popup-photo-card"><img src="photo6.jpg" alt="6"><div class="popup-photo-caption">🩷🌚بحب ضحكتك اوي بجد🩷🫂</div></div>
+                <div class="popup-photo-card"><img src="photo7.jpg" alt="7"><div class="popup-photo-caption">الضحكة اللي بتفرحني دايماً 🌚🩷</div></div>
+                <div class="popup-photo-card"><img src="photo8.jpg" alt="8"><div class="popup-photo-caption">عيونك سحروني 🫠🩷✨</div></div>
+                <div class="popup-photo-card"><img src="photo9.jpg" alt="9"><div class="popup-photo-caption">حبيبتي وروحي دايماً 🩷✨</div></div>
+                <div class="popup-photo-card"><img src="photo10.jpg" alt="10"><div class="popup-photo-caption">ادوب ف هذة الجمال🫠🩷</div></div>
             </div>
         </div>
     </div>
 
-    <!-- النافذة العامة للرومات والنوت -->
     <div class="modal" id="genericModal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 id="modal-title" style="color: #d63384; margin-bottom: 10px;"></h3>
+            <div class="modal-sticky-bar">
+                <h3 id="modal-title" style="color: #d63384; flex: 1;"></h3>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
             <div id="modal-extra-container"></div>
             <div id="modal-body" style="line-height: 1.8; color: #444; font-size: 14px; white-space: pre-line; text-align: right;"></div>
             <div id="modal-parts-container"></div>
@@ -944,7 +893,6 @@
             document.getElementById('galleryModal').style.display = 'none';
         }
 
-        // --- إعدادات التوقيتات والقفل الزمني ---
         const unlockTimes = {
             room1: null,
             room2: new Date(2026, 11, 1, 0, 0, 0),
@@ -1000,25 +948,12 @@
                 const unlocked = isUnlocked(unlockTimes[id]);
 
                 if (card) {
-                    if (unlocked) {
-                        card.classList.remove('locked-room');
-                    } else {
-                        card.classList.add('locked-room');
-                    }
-
-                    if (roomCoverDismissed[id]) {
-                        card.classList.remove('has-cover');
-                    } else {
-                        card.classList.add('has-cover');
-                    }
+                    card.classList.toggle('locked-room', !unlocked);
+                    card.classList.toggle('has-cover', !roomCoverDismissed[id]);
                 }
 
                 if (cover) {
-                    if (roomCoverDismissed[id]) {
-                        cover.classList.add('dismissed');
-                    } else {
-                        cover.classList.remove('dismissed');
-                    }
+                    cover.classList.toggle('dismissed', !!roomCoverDismissed[id]);
                 }
 
                 if (badge && id !== 'room1') {
@@ -1037,7 +972,6 @@
                 }
             });
 
-            // تحديث حالة وعداد الأجزاء التلاتة لحظياً داخل الروم الرابع
             [0, 1, 2].forEach(idx => {
                 const part = roomData.room4 && roomData.room4.parts ? roomData.room4.parts[idx] : null;
                 const cardEl = document.getElementById('room4-part-card-' + idx);
@@ -1046,11 +980,7 @@
 
                 const partUnlocked = isUnlocked(part.unlockDate);
                 if (cardEl) {
-                    if (partUnlocked) {
-                        cardEl.classList.remove('locked-part');
-                    } else {
-                        cardEl.classList.add('locked-part');
-                    }
+                    cardEl.classList.toggle('locked-part', !partUnlocked);
                 }
 
                 if (partUnlocked) {
@@ -1086,30 +1016,29 @@
             openRoom(roomId);
         }
 
-        // --- محتوى الرومات الأربعة ---
         const roomData = {
-            room1: { 
-                title: "ليكي انتِ.. بصوتي من قلبي ل قلبك🩷🫂", 
+            room1: {
+                title: "ليكي انتِ.. بصوتي من قلبي ل قلبك🩷🫂",
                 text: `الريكورد اللي بتحبيه اهو😂🩷
 عايز اقولك يبنوتي انك احلي شخص عرفته ف حياتي كلها بجد ربنا يديمك ليا يعمري بجد انا معاكي حسيت ب حلاوة و جمال الدنيا بجد بقيت بني ادم تاني خالص بجد و الريك ده انا نفسي مكنتش مصدق نفسي بجد اني بطلع مشاعري بجد و صدق بجد كل كلمه فيه و كل احساس حلو حسيته انتي السبب فيه بجد انا بحبك اوي يميرو🩷✨`,
                 img: "room-img1.jpg",
                 audio: "voice.mp3"
             },
-            room2: { 
-                title: "اول فيلم شوفناه سوا🩷🌚", 
+            room2: {
+                title: "اول فيلم شوفناه سوا🩷🌚",
                 movieDate: "2026/10/29",
                 lockedMessage: "🔒 الروم ده مقفول حالياً وهيفتح بتاريخ 2026/12/01 الساعة 12:00 AM 🩷✨",
                 text: `من احلي الحاجات اللي حصلت بينا بجد اليوم ده مستحيل انساه ولا انسا اي تفصيله فيه بجد من بداية كلامنا ف اليوم لحد ما نمنا سوا ف الكول مع بعض و كلامنا و اعترفنا ب كل حاجه لبعض و صدقنا و مشاعرنا سوا لبعض بجد احلي حاجه حصلت ف حياتنا سوا بجد يبنوتي ربنا يديمك ليا يقلب بابا🩷🫂`
             },
-            room3: { 
-                title: "مكالمتنا سوا🩷", 
+            room3: {
+                title: "مكالمتنا سوا🩷",
                 lockedMessage: "🔒 الروم ده مقفول حالياً وهيفتح بتاريخ 2026/12/15 الساعة 12:00 AM 🩷✨",
                 text: `بنووووتي🌚🩷
 مكالمتنا سوا و اسكرينات مكالمتنا بجد مش مجرد اسكرينات او عدد ساعات كلام  لا بجد مكالمتنا فيها كل حاجه حلوه بجد من بداية كلامنا ف الكول و اننا بنسمع صوت بعض و بنرخم ع بعض و كل حاجه سوا ف خلال اليوم بنبقا مع بعض طول الوقت و اننا بنفهم بعض اكتر وبنحس ببعض اكتر بجد ف مكالمتنا سوا مش مجرد عدد ساعات او كلام بينا و خلاص لا دي بالنسبالي حياة بجد و ايامنا لما بتعدي من غير كول ببقا مدايق بجد ببقا محتاج اسمع صوتك و اسمع كلام معين منك عشان اكمل يومي و احس ان   يومي ابقا تمام عشان سمعت صوتك و احسسنا سوا مع بعض و كلامنا و كل حاجه بجد بحبك اوووووووووي🩷🩷🩷🩷✨`,
                 img: "room-img3.jpg"
             },
-            room4: { 
-                title: "🩷✨ذكرى غالية وبداية سنة جديدة", 
+            room4: {
+                title: "🩷✨ذكرى غالية وبداية سنة جديدة",
                 lockedMessage: "🔒 الروم ده مقفول حالياً وهيفتح بتاريخ 2026/12/31 الساعة 12:00 AM 🩷✨",
                 text: `النهاردة مش يوم عادي زي باقي الايام النهاردة يوم فيه وجع و الم علي عمو ربنا يرحمه🩷️‍🩹
 و النهاردة برضو زي ما هو يوم مش الطف حاجه بالنسبالك
@@ -1169,7 +1098,6 @@ I'm so happy we get to start the new year together🫂🩷`
             const part = roomData.room4.parts[partIdx];
             const cardEl = document.getElementById('room4-part-card-' + partIdx);
             const coverEl = document.getElementById('room4-part-cover-' + partIdx);
-            const contentEl = document.getElementById('room4-part-content-' + partIdx);
 
             if (!part) return;
 
@@ -1185,28 +1113,15 @@ I'm so happy we get to start the new year together🫂🩷`
             partCoverDismissed[partIdx] = true;
             if (coverEl) coverEl.classList.add('dismissed');
             if (cardEl) cardEl.classList.remove('has-part-cover');
-            if (contentEl) {
-                contentEl.style.opacity = '1';
-                contentEl.style.transform = 'translateY(0)';
-                contentEl.style.height = 'auto';
-                contentEl.style.overflow = 'visible';
-            }
         }
 
         function closePartMessage(partIdx) {
             const cardEl = document.getElementById('room4-part-card-' + partIdx);
             const coverEl = document.getElementById('room4-part-cover-' + partIdx);
-            const contentEl = document.getElementById('room4-part-content-' + partIdx);
 
             partCoverDismissed[partIdx] = false;
             if (cardEl) cardEl.classList.add('has-part-cover');
             if (coverEl) coverEl.classList.remove('dismissed');
-            if (contentEl) {
-                contentEl.style.opacity = '';
-                contentEl.style.transform = '';
-                contentEl.style.height = '';
-                contentEl.style.overflow = '';
-            }
             refreshRoomLocksUI();
         }
 
@@ -1289,7 +1204,7 @@ I'm so happy we get to start the new year together🫂🩷`
                     '<audio controls preload="metadata" src="' + room.audio + '"></audio>' +
                     '</div>';
             }
-            
+
             if (room.img) {
                 imgContainer.innerHTML = '<img src="' + room.img + '" alt="Room Image">';
             }
@@ -1309,8 +1224,8 @@ I'm so happy we get to start the new year together🫂🩷`
             const btn1 = document.getElementById('themeBtn');
             const btn2 = document.getElementById('themeBtn2');
             const text = isDark ? "☀️ Light" : "🌙 Dark";
-            if(btn1) btn1.innerHTML = text;
-            if(btn2) btn2.innerHTML = text;
+            if (btn1) btn1.innerHTML = text;
+            if (btn2) btn2.innerHTML = text;
         }
 
         const startDate = new Date('2026-09-16T00:00:00');
@@ -1323,5 +1238,48 @@ I'm so happy we get to start the new year together🫂🩷`
             const seconds = Math.floor((diff / 1000) % 60);
             const minutes = Math.floor((diff / (1000 * 60)) % 60);
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            
-            let years = now.getFullYear() - startDate.getFull
+
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
+
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            document.getElementById('years').innerText = years < 0 ? 0 : years;
+            document.getElementById('months').innerText = months < 0 ? 0 : months;
+            document.getElementById('days').innerText = days < 0 ? 0 : days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+        }
+
+        function startTimer() {
+            updateTimer();
+            setInterval(() => {
+                updateTimer();
+                refreshRoomLocksUI();
+            }, 1000);
+        }
+
+        function createHearts() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerText = ['💖', '🌸', '✨', '💕', '🌷'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHearts, 500);
+    </script>
+</body>
+</html>
